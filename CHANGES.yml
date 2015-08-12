@@ -1,0 +1,97 @@
+
+-
+    version: 1.3.0
+    date: August 11, 2015
+    notes: >
+        First release of integrated sequence joining.
+        ``join``, ``word_join``, ``and_join``, ``or_join``, ``joinlines``, and
+        ``items`` are functional and tested, but still less mature than the
+        rest of the codebase.
+        
+-
+    version: 1.2.0
+    date: August 11, 2015
+    notes: >
+        Institutes full named styles within each quoting class.
+        Tests and docs tweaked. Embedded ``nulltype`` module
+        withdrawn in favor of full ``nulltype`` imported by ``options``.
+        
+-
+    version: 1.1.4
+    date: August 3, 2015
+    notes: >
+        Experimental switch to YAML format for change log. Some setup,
+        testing, and config upates.
+        
+-
+    version: 1.1.3
+    date: August 3, 2015
+    notes: >
+        Cloning and changing of ``Quoter`` instances (though not yet
+        ``HTMLQuoter`` or ``XMLQuoter`` instances) is now operational.
+
+-
+    version: 1.1.0
+    date: August 3, 2015
+    notes: >
+        Cleans up HTML quoting, esp. re void / self-closing elements.
+        Adds new double-backtick functions. Changed to Apache License 2.0.
+        Updates docs and testing matrix.
+
+-
+    version: 1.0.3
+    date: November 1, 2013
+    notes: >
+        HTML, XML, and lambda quoters now use class-relative styles
+        dictionaries, as opposed to piggybacking the standard Quoter styles
+        dictionary.
+        
+        Improved docs and tests.
+        
+        Added ``lambdaq`` front-end parallel to ``quote``, ``html``, and
+        ``xml``.
+
+-
+    version: 1.0.2
+    date: October 31, 2013
+    notes: >
+        Some internal cleanups to improve code reuse among classes. Bumped
+        from Alpha to Beta status.
+
+-
+    version: 1.0.1
+    date: October 31, 2013
+    notes: >
+        A new alternate API consisting of attribute names off of a default
+        quoting object (e.g. ``quote.single`` as a specialization of
+        ``quote``) has been instituted. This is mostly, but not perfectly, a
+        superset of the previous use of a ``quote()`` function.
+        
+        The naming infrastructure has been beefed up, with multiple names
+        (aliases) possible for all named objects.
+        
+        A new ``XMLQuoter`` is inserted as a superclass of ``HTMLQuoter`. It
+        has ``HTMLQuoter``'s ability to parse CSS style id and class name
+        definitions (e.g. ``'#first.big.special'``), as well as namespace
+        support (new ``ns`` attribute).
+        
+        XML and HTML quoters for individual tags are automagically generated
+        upon first use. E.g. ``html.b('this')`` creates an
+        ``HTMLQuoter(tag='b', name='b')`` quoter that is cached as
+        ``html.b`` for subsequent uses.
+        
+        Updated versioning strategy to comply with `PEP 386
+        <http://www.python.org/dev/peps/pep-0386/>`_
+        
+        Various other structural and packaging cleanups. E.g. moved into
+        proper Python package; given introspectable version number; removed
+        old ``verno`` auto-update of version number; this proper change long
+        instituted; etc.
+
+-
+    version: 0.308
+    date: October 30, 2012
+    notes: >
+        Last version before PEP 386 versioning switch. Upgrade away from
+        these old versions if for no other reason than improving the
+        auto-install logic.

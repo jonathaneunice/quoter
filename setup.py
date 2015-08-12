@@ -4,7 +4,7 @@ from setuptools import setup
 from codecs import open
 import sys
 
-_PY26 = sys.version_info[:2] == (2,6)
+_PY26 = sys.version_info[:2] == (2, 6)
 STUF = 'stuf==0.9.14' if _PY26 else 'stuf>=0.9.16'
 
 
@@ -27,7 +27,7 @@ setup(
     license='Apache License 2.0',
     packages=['quoter'],
     setup_requires=[],
-    install_requires=['six>=1.9', STUF, 'options>=1.2'],
+    install_requires=['six>=1.9', STUF, 'options>=1.2.2'],
     tests_require=['tox', 'pytest', 'six>=1.9'],
     test_suite="test",
     zip_safe=False,  # it really is, but this will prevent weirdness

@@ -6,23 +6,7 @@ wrapping values with prefix and suffix strings.
 import re
 import six
 from options import Options, OptionsClass, Prohibited, Transient
-
-
-def is_string(v):
-    return isinstance(v, six.string_types)
-
-
-def stringify(v):
-    """
-    Return a string. If it's already a string, just return that.
-    Otherwise, stringify it. Not safe for Python 3.
-    """
-    return v if is_string(v) else str(v)
-
-    # This could use a good review. Why would it not be
-    # safe for Python 3? For Python 2, should it cast to
-    # unicode not str? In which case, just define unicode
-    # for Python 3?
+from .util import *
 
 
 class BadStyleName(ValueError):

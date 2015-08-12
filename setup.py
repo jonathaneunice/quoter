@@ -18,7 +18,7 @@ def lines(text):
 
 setup(
     name='quoter',
-    version='1.3.1',
+    version='1.3.2',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Simple, systematic way to quote, join, and textually wrap Python data",

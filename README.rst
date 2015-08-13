@@ -1,4 +1,9 @@
-| |version| |downloads| |supported-versions| |supported-implementations|
+
+| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel|
+
+.. |travisci| image:: https://travis-ci.org/jonathaneunice/quoter.svg?branch=master
+    :alt: Travis CI build status
+    :target: https://travis-ci.org/jonathaneunice/quoter
 
 .. |version| image:: http://img.shields.io/pypi/v/quoter.svg?style=flat
     :alt: PyPI Package latest release
@@ -16,7 +21,6 @@
     :alt: Supported implementations
     :target: https://pypi.python.org/pypi/quoter
 
-Simple, systematic way to quote, join, and textually wrap Python data.
 
 Usage
 =====
@@ -498,9 +502,18 @@ Notes
   Packaging linting with `pyroma <https://pypi.python.org/pypi/pyroma>`_.
 
   Successfully packaged for, and
-  tested against, all late-model versions of Python: 2.6, 2.7, 3.2, 3.3,
+  tested against, all late-model versions of Python: 2.7, 3.2, 3.3,
   3.4, and 3.5 pre-release (3.5.0b3) as well as PyPy 2.6.0 (based on
   2.7.9) and PyPy3 2.4.0 (based on 3.2.5).
+
+* Support for Python 2.6 is questionable. It does build, test, and work
+  under many configurations, but there is a 2.6 installability failure of
+  recent versions of the ``stuf`` module underlying the ``options`` module
+  on which ``quoter`` relies. Installing an old-enough version of ``stuf``
+  to not fail on Python 2.6 is tricky. I've submitted a patch to the
+  developer of ``stuf``, but as yet it hasn't been acted upon. So for now,
+  unless someone indicates 2.6 support
+  is critical to them, I'm inclined to just let 2.6 slip away.
 
 * The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_ welcomes your comments

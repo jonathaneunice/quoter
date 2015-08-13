@@ -5,26 +5,8 @@ joining values in sequences into strings.
 
 import re
 from options import Options
+from .util import *
 import six
-
-
-def is_string(v):
-    return isinstance(v, six.string_types)
-
-
-def stringify(v):
-    """
-    Return a string. If it's already a string, just return that.
-    Otherwise, stringify it.
-    """
-    return v if is_string(v) else str(v)
-
-
-def blanknone(v):
-    """
-    Return a value, or empty string if it's None.
-    """
-    return '' if v is None else v
 
 
 join_options = Options(

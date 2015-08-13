@@ -1,5 +1,11 @@
 
 -
+    version: 1.3.4
+    date: August 14, 2015
+    notes: >
+        Added Travis CI badge and note about 2.6 release to docs
+
+-
     version: 1.3.3
     date: August 11, 2015
     notes: >

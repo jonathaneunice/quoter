@@ -21,6 +21,10 @@
     :alt: Supported implementations
     :target: https://pypi.python.org/pypi/quoter
 
+.. |wheel| image:: https://img.shields.io/pypi/wheel/quoter.svg
+    :alt: Wheel packaging support
+    :target: https://pypi.python.org/pypi/quoter
+
 
 Usage
 =====

@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel|
+| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage|
 
 .. |travisci| image:: https://travis-ci.org/jonathaneunice/quoter.svg?branch=master
     :alt: Travis CI build status

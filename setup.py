@@ -28,7 +28,7 @@ setup(
     packages=['quoter'],
     setup_requires=[],
     install_requires=['six>=1.9', STUF, 'options>=1.2.2'],
-    tests_require=['tox', 'pytest', 'six>=1.9'],
+    tests_require=['tox', 'pytest', 'pytest-cov', 'coverage', 'six>=1.9'],
     test_suite="test",
     zip_safe=False,  # it really is, but this will prevent weirdness
     keywords='quote wrap prefix suffix endcap repr representation html xml join',

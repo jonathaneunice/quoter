@@ -126,6 +126,12 @@ def test_lambda():
     assert lambdaq.warning(-99) == '**-99**'
     assert lambdaq.warning(-99, padding=1) == '** -99 **'
 
+
+def test_lambdaq_named_style():
+    assert lambdaq(44, style='warning') == '44'
+    assert lambdaq(-44, style='warning') == '**-44**'
+
+
 def test_html_example():
     assert html.p("A para", ".focus") == "<p class='focus'>A para</p>"
     assert html.br() == "<br>"
@@ -173,6 +179,11 @@ def test_quote_shortcut():
     assert quote('this', style='braces') == '{this}'
 
 
+def test_named_quote_style():
+    assert quote('this', style='variable') == '${this}'
+    assert braces('this', style='variable') == '${this}'
+
+
 def test_redef():
     braces = Quoter('{', '}', padding=1, name='braces')
     assert braces('this') == '{ this }'
@@ -216,6 +227,7 @@ def test_xml_examples():
     assert xml.special('else entirely', '#unique') == \
             "<special id='unique'>else entirely</special>"
 
+
 def test_xml_auto_and_attributes():
 
     assert xml.root('this') == '<root>this</root>'
@@ -255,6 +267,16 @@ def test_named_styles_in_proper_homes():
 
     assert xml.x("y") == "<x>y</x>"
     assert 'x' in XMLQuoter.styles
+
+
+def test_named_xml_and_html_styles():
+    XMLQuoter('book', name='book')
+    assert xml("this", style="book") == "<book>this</book>"
+
+
+def test_bad_style_names():
+    with pytest.raises(BadStyleName):
+        v = Quoter('v', name="_v")
 
 
 # some problem exists with explicit atts setting here

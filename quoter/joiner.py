@@ -93,10 +93,15 @@ def or_join(seq, **kwargs):
     kwargs.setdefault('lastsep', ', or ')
     return join(seq, **kwargs)
 
+
 def is_sequence(arg):
-    return (not hasattr(arg, "strip") and
-            hasattr(arg, "__getitem__") or
-            hasattr(arg, "__iter__"))
+    """
+    Is a list, set etc. Not a string.
+    """
+    if hasattr(arg, "__iter__") or hasattr(arg, "__getitem__"):
+        if not hasattr(arg, "strip"):
+            return True
+    return False
 
 
 concat_options = join_options.add(
@@ -106,15 +111,10 @@ concat_options = join_options.add(
 
 # concat currently not working - arg handling needs attention
 
-def concat(*args, **kwargs):
+def concat(seq, **kwargs):
     opts = concat_options.push(kwargs)
+    return join(list(seq), **opts)  # problem here in Py3x
 
-    if len(args) == 1 and is_sequence(args[0]):
-        seq = list(args[0])
-    else:
-        seq = args
-
-    return join(args, **opts)  # problem here in Py3x
 
 items_options = Options(
     sep="\n",  # separator between items

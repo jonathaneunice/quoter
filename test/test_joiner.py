@@ -1,6 +1,8 @@
 
 from quoter import *
+from quoter.joiner import is_sequence
 import pytest
+import six
 import sys
 
 ### Helper functions
@@ -14,6 +16,18 @@ def brackets(s):
 
 
 ### Tests
+
+def test_is_sequence():
+    assert not is_sequence('this')
+    assert not is_sequence(six.u('this'))
+    assert not is_sequence(4)
+    assert not is_sequence(4.4)
+    assert not is_sequence(3.3+2j)
+    assert is_sequence([])
+    assert is_sequence([1,3,4])
+    assert is_sequence(set())
+    assert is_sequence(set([1,3,4]))
+    assert is_sequence(range(10))
 
 
 def test_oxford():
@@ -72,11 +86,10 @@ def test_no_twostep():
     assert join([1, 2, 3, 4], sep='|', twosep=None, lastsep='+') == '1|2|3+4'
 
 
-@pytest.mark.skipif(True, reason='road out')
+# @pytest.mark.skipif(True, reason='road out')
 def test_concat():
-    assert concat(4, 5, 6) == '456'
+    assert concat([4, 5, 6]) == '456'
     assert concat(range(3)) == '012'
-    assert concat('a','b','c') == 'abc'
     assert concat([4, 5, 6]) == '456'
     assert concat(['a','b','c']) == 'abc'
 

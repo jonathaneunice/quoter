@@ -189,7 +189,8 @@ class LambdaQuoter(Quoter):
         """
         opts = self.options.push(kwargs)
         if opts.style:
-            return Quoter.styles[opts.style](value, **kwargs)
+            cls = self.__class__
+            return cls.styles[opts.style](value, **kwargs)
         else:
             pstr, mstr = self._whitespace(opts)
             prefix, value, suffix = opts.func(value)
@@ -276,7 +277,8 @@ class XMLQuoter(Quoter):
         if 'style' in kwargs:
             stylename = kwargs['style']
             del kwargs['style']
-            return Quoter.styles[stylename](*args, **kwargs)
+            cls = self.__class__
+            return cls.styles[stylename](*args, **kwargs)
         else:
 
             if 'atts' in kwargs:

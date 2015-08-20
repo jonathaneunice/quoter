@@ -26,9 +26,23 @@ def test_doc_example():
     assert join(mylist, sep=" | ", endcaps=braces) == "{A | B | C | D}"
     assert join(mylist, sep=" | ", endcaps=braces.clone(padding=1)) == \
             "{ A | B | C | D }"
+    assert join(mylist, sep=" | ", endcaps=braces.but(padding=1)) == \
+            "{ A | B | C | D }"
+    assert and_join(mylist[:2]) == "A and B"
+    assert and_join(mylist[:3]) == "A, B, and C"
     assert and_join(mylist) == "A, B, C, and D"
     assert and_join(mylist, quoter=double, lastsep=" and ") == \
             '"A", "B", "C" and "D"'
+
+
+def test_margins_and_padding():
+    mylist = list("ABCD")
+    bl = join.but(sep="|", prefix='{', suffix='}')
+
+    assert bl(mylist) =="{A|B|C|D}"
+    assert bl(mylist, margin=1) ==" {A|B|C|D} "
+    assert bl(mylist, padding=2) =="{  A|B|C|D  }"
+    assert bl(mylist, margin=2, padding=1) =="  { A|B|C|D }  "
 
 
 def test_is_sequence():
@@ -100,7 +114,6 @@ def test_no_twostep():
     assert join([1, 2, 3, 4], sep='|', twosep=None, lastsep='+') == '1|2|3+4'
 
 
-# @pytest.mark.skipif(True, reason='road out')
 def test_concat():
     assert concat([4, 5, 6]) == '456'
     assert concat(range(3)) == '012'
@@ -109,12 +122,10 @@ def test_concat():
 
 
 def test_joinlines():
-
     assert joinlines([]) == '\n'
     assert joinlines(list('a')) == 'a\n'
     assert joinlines(list('ab')) == 'a\nb\n'
     assert joinlines(list('abc')) == 'a\nb\nc\n'
-
 
 
 def test_and_join():
@@ -131,6 +142,14 @@ def test_or_join():
     assert or_join([1, 2]) == '1 or 2'
     assert or_join([1, 2, 3]) == '1, 2, or 3'
     assert or_join([1, 2, 3, 4]) == '1, 2, 3, or 4'
+
+
+@pytest.mark.xfail(reason='road out')
+def test_named_endpoints():
+    mylist = list('ABCD')
+    assert join(mylist, style="and") == and_join(mylist)
+    assert join(mylist, style="or") == or_join(mylist)
+    assert join.lines(mylist) == join(mylist, style="lines") == joinlines(mylist)
 
 
 def test_items():

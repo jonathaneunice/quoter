@@ -34,6 +34,11 @@ def test_clone():
     assert bb('this') == '  <b> this </b>  '
     assert html.b('this') == '<b>this</b>'
 
+    sp = html.b.but(atts='span')
+    assert sp is not html.b
+    assert sp('something') == '<span>something</span>'
+    assert sp('else', '.other') == "<span class='other'>else</span>"
+
 
 def test_but():
     """

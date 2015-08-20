@@ -75,6 +75,8 @@ Finally, ``quoter`` provides a drop-dead simple, highly functional,
     print join(mylist, sep=" | ", endcaps=braces)
     print join(mylist, sep=" | ", endcaps=braces.but(padding=1))
     print and_join(mylist)
+    print and_join(mylist[:2])
+    print and_join(mylist[:3])
     print and_join(mylist, quoter=double, lastsep=" and ")
 
 Yields::
@@ -82,13 +84,17 @@ Yields::
     A, B, C, D
     {A | B | C | D}
     { A | B | C | D }
+    A and B
+    A, B, and C
     A, B, C, and D
     "A", "B", "C" and "D"
 
 Which shows a range of separators, separation styles (both Oxford and
 non-Oxford commas), endcaps, padding, and individual item quoting. I
 daresay you will not find a more flexible or configurable ``join``
-function *anywhere* else in the Python world.
+function *anywhere* else, in 
+any programming language, at any price.
 
 See `the rest of the story
 at Read the Docs <http://quoter.readthedocs.org/en/latest/>`_.
+

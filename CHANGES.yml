@@ -1,3 +1,13 @@
+-
+    version: 1.5.0
+    date: August 20, 2015
+    Enables cloning and specialiation of all ``Quoter`` subclasses, including
+    ``xml`` and ``html`` objects docs previously warned were non-functional.
+    Refactors majority of ``Joiner`` functionality as a subclass of 
+    ``Quoter``, with all the rights and privileges thereunto appertaining.
+
+    Extends tests.
+
 - 
     version: 1.4.4
     date: August 20, 2015

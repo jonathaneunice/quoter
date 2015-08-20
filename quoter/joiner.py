@@ -6,101 +6,96 @@ joining values in sequences into strings.
 import re
 from options import Options
 from .util import *
+from .quoter import Quoter
 import six
 
 
-join_options = Options(
-    sep=', ',    # separator between items
-    twosep=None,   # separator between items if only two
-    lastsep=None,  # separator between penultimate and final item
-    quoter=None,   # quoter for individual items
-    endcaps=None,  # quoter for entire joined sequence
-    prefix=None,   # prefix for entire joined, endcaped sequence
-    suffix=None    # suffix for entire joined, endcaped sequence
-)
+class Joiner(Quoter):
 
+    """
+    A type of Quoter that deals with sequences.
+    """
+
+    styles = {}         # remember named styles
+
+    options = Quoter.options.add(
+        sep=', ',    # separator between items
+        twosep=None,   # separator between items if only two
+        lastsep=None,  # separator between penultimate and final item
+        quoter=None,   # quoter for individual items
+        endcaps=None,  # quoter for entire joined sequence
+    )
+
+    def __init__(self, *args, **kwargs):
+        """
+        Create a Joiner
+        """
+        # Restating basic init to avoid errors of self.__getattribute__
+        # that can flummox superclass instantiation
+        Quoter.__init__(self)
+
+        opts = self.options = self.__class__.options.push(kwargs)
+        self._register_name(opts.name)
+
+    def __call__(self, seq, **kwargs):
+        """
+        Join the items of a sequence into a string. Implicitly stringifies any
+        not-string values. Allows specification of the separator between items (and
+        a special case for the last separator). Allows each item to be optionally
+        quoted by a function, and the entire list to be optionally quoted with an
+        endcaps function. A separate suffix and prefix may also be provdied.
+        """
+        opts = self.options.push(kwargs)
+
+        def prep(v):
+               """
+               Prepare an item by stringifying and optionally quoting it.
+               """
+               s = stringify(v)
+               return opts.quoter(s) if opts.quoter else s
+
+        seqlist = list(seq)
+        length = len(seqlist)
+        if length == 0:
+            core = ''
+        elif length == 1:
+            core = prep(seqlist[0])
+        elif length == 2 and opts.twosep:
+            sep = opts.twosep if opts.twosep is not None else opts.sep
+            core = sep.join(prep(v) for v in seqlist)
+        else:
+            start = [ prep(v) for v in seqlist[:-1] ]
+            final = prep(seqlist[-1])
+            if opts.lastsep is None:
+                opts.lastsep = opts.sep
+            core = opts.lastsep.join([ opts.sep.join(start), final])
+        pstr, mstr = self._whitespace(opts)
+        capped = opts.endcaps(core) if opts.endcaps else core
+        payload = [mstr, blanknone(opts.prefix), pstr, capped, pstr,
+                         blanknone(opts.suffix), mstr]
+        return self._output(payload, opts)
+
+
+# FIXME: issue with named styles that have multiple styles extant
+
+join = Joiner()
+
+# specializations
+
+# A and B. A, B, and C.
+and_join = join.but(sep=', ', twosep=' and ', lastsep=', and ', name='and_join and')
+word_join = and_join # deprecated
+
+# A or B. A, B, or C.
+or_join = join.but(sep=', ', twosep=' or ', lastsep=', or ', name='or_join or')
+
+joinlines = join.but(sep="\n", suffix="\n", name='joinlines lines')
 
 # TODO: Rationalize with respect to more sophisticated quoter args
 # TODO: Rationalizw wrt more sophisticated quoter class structure and extensibility
 # TODO: Add padding and margin, like quoter
 
-
-def join(seq, **kwargs):
-    """
-    Join the items of a sequence into a string. Implicitly stringifies any
-    not-string values. Allows specification of the separator between items (and
-    a special case for the last separator). Allows each item to be optionally
-    quoted by a function, and the entire list to be optionally quoted with an
-    endcaps function. A separate suffix and prefix may also be provdied.
-    """
-
-    opts = join_options.push(kwargs)
-
-    def prep(v):
-        """
-        Prepare an item by stringifying and optionally quoting it.
-        """
-        s = stringify(v)
-        return opts.quoter(s) if opts.quoter else s
-
-    seqlist = list(seq)
-    length = len(seqlist)
-    if length == 0:
-        core = ''
-    elif length == 1:
-        core = prep(seqlist[0])
-    elif length == 2 and opts.twosep:
-        sep = opts.twosep if opts.twosep is not None else opts.sep
-        core = sep.join(prep(v) for v in seqlist)
-    else:
-        start = [ prep(v) for v in seqlist[:-1] ]
-        final = prep(seqlist[-1])
-        if opts.lastsep is None:
-            opts.lastsep = opts.sep
-        core = opts.lastsep.join([ opts.sep.join(start), final])
-    capped = opts.endcaps(core) if opts.endcaps else core
-    if opts.prefix or opts.suffix:
-        affixed = ''.join([ blanknone(opts.prefix), capped, blanknone(opts.suffix) ])
-    else:
-        affixed = capped
-    return affixed
-
-
-def word_join(seq, **kwargs):
-    """
-    Slightly specific join for words. Returns by default an Oxford comma list,
-    but accepts all the same options as join.
-    """
-    kwargs.setdefault('sep', ', ')
-    kwargs.setdefault('twosep', ' and ')
-    kwargs.setdefault('lastsep', ', and ')
-    return join(seq, **kwargs)
-
-and_join = word_join
-
-
-def joinlines(seq, **kwargs):
-    """
-    Sometimes you want to join a series of lines, and have a newline as the
-    on the final line too. This does that.
-    """
-    kwargs.setdefault('sep', '\n')
-    kwargs.setdefault('suffix', '\n')
-    return join(seq, **kwargs)
-
-
-def or_join(seq, **kwargs):
-    """
-    A, B, or C.
-    """
-    kwargs.setdefault('sep', ', ')
-    kwargs.setdefault('twosep', ' or ')
-    kwargs.setdefault('lastsep', ', or ')
-    return join(seq, **kwargs)
-
-
-# with a class-based structure, and_join, or_join, and joinlines would
-# be instances not functions on their own
+concat = join.but(sep='', twosep='', lastsep='', name='concat')
 
 
 def is_sequence(arg):
@@ -111,18 +106,6 @@ def is_sequence(arg):
         if not hasattr(arg, "strip"):
             return True
     return False
-
-
-concat_options = join_options.add(
-    sep='',  # combine with no separator, by default
-)
-
-
-# concat currently not working - arg handling needs attention
-
-def concat(seq, **kwargs):
-    opts = concat_options.push(kwargs)
-    return join(list(seq), **opts)  # problem here in Py3x
 
 
 items_options = Options(

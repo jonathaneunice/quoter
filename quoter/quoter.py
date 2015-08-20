@@ -166,6 +166,11 @@ anglequote = guillemet = Quoter(six.u('\u00ab'), six.u('\u00bb'), name='anglequo
 curlysingle = Quoter(six.u('\u2018'), six.u('\u2019'), name='curlysingle')
 curlydouble = Quoter(six.u('\u201c'), six.u('\u201d'), name='curlydouble')
 
+# consider adding the html entity names as the names of the above quotes
+# at least as aliases
+
+# fix issue with aliased style names
+
 
 class LambdaQuoter(Quoter):
 

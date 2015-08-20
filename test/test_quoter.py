@@ -229,7 +229,7 @@ def test_para():
     assert div('something', '.todo') == '<div class="todo">something</div>'
 
 
-# @pytest.mark.skipif('True', reason='road out')
+@pytest.mark.skipif('True', reason='road out')
 def test_css_selector():
     assert html('joe', 'b.name') == "<b class='name'>joe</b>"
     assert xml('joe', 'b.name') == "<b class='name'>joe</b>"

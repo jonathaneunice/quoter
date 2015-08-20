@@ -2,7 +2,7 @@
     version: 1.5.0
     date: August 20, 2015
     notes: >
-        Enables cloning and specialiation of all ``Quoter`` subclasses,
+        Enables cloning and specialization of all ``Quoter`` subclasses,
         including ``xml`` and ``html`` objects docs previously warned were
         non-functional. Refactors majority of ``Joiner`` functionality as a
         subclass of ``Quoter``, with all the rights and privileges thereunto
@@ -87,7 +87,7 @@
     date: August 11, 2015
     notes: >
         Initiated external CI with Travis.
-        Dropped Python 2.6 from offical support given issues getting
+        Dropped Python 2.6 from official support given issues getting
         it running on Travis (though it actually does work).
         
 -
@@ -112,7 +112,7 @@
     date: August 3, 2015
     notes: >
         Experimental switch to YAML format for change log. Some setup,
-        testing, and config upates.
+        testing, and config updates.
         
 -
     version: 1.1.3

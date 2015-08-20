@@ -32,10 +32,10 @@ Yields::
     <!-- content ends here -->
 
 This clearly goes beyond "simply wrapping some text with other text." The
-output format varies widely, corectly interpreting CSS Selector-based
+output format varies widely, correctly interpreting CSS Selector-based
 controls, using void/self-closing elements where needed, and specialized
 markup. The HTML quoter and its companion XML quoter are competitive in
-power and simplicity with bespoke markup-generating packges.
+power and simplicity with bespoke markup-generating packages.
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::
@@ -59,6 +59,14 @@ Which shows a range of separators, separation styles (both Oxford and
 non-Oxford commas), endcaps, padding, and individual item quoting. I
 daresay you will not find a more flexible or configurable ``join``
 function *anywhere* else in the Python world.
+
+And if you like any particular style of formatting, make it your own::
+
+    >>> my_join = join.but(sep=" | ", endcaps=braces.but(padding=1))
+    >>> print my_join(mylist)
+    { A | B | C | D }
+
+Now you have a convenient specialized formatter to your own specifications.
 
 Discussion
 ==========
@@ -95,8 +103,8 @@ attributes.
 provides a mechanism to pre-define your own quoting styles that can then be
 easily reused.
 
-Doing Better
-============
+We Can Do Better
+================
 
 Unlike native Python concatenation operators, ``quoter`` isn't flustered if
 you give it non-string data. It knows you want a string output, so it
@@ -482,7 +490,7 @@ invocation ``join(mylist)`` is identical to ``', '.join(mylist)``. But
 of course it doesn't stop there. The ``sep`` parameter determines what
 string is placed between each list item. But the separator need not be
 uniform. For the common (and linguistically important) case where there are
-two items in list, the ``twosep`` parameter provides an alterate value.
+two items in list, the ``twosep`` parameter provides an alternate value.
 The final separator can be defined via the ``lastsep`` parameter, permitting
 proper `Oxford commas <https://en.wikipedia.org/wiki/Serial_comma>`_, or
 if you prefer, a non-Oxford heathen style. The standard ``prefix``, ``suffix``,
@@ -529,41 +537,24 @@ Various defined ``Joiner`` objects may be of use:: ``and_join``, ``or_join``,
 Notes
 =====
 
-* Version 1.5 Enables cloning and specialiation of all Quoter subclasses, including
-  from ``xml`` and ``html`` objects the docs previously warned were non-functional.
-  Refactors majority of ``Joiner`` functionality as a subclass of
-  ``Quoter``, with all the rights and privileges thereunto appertaining.
-
-* Version 1.4 is a major update, making the
-  complex argument handling for ``XMLQuoter``
-  ``HTMLQuoter`` much more robust and extensible. Adds
-  Adds direct attribute setting ``[key=value]`` to the
-  CSS selector specification language. Advances test line coverage
-  to 100%.
-
-* Version 1.3 ships the first release of integrated sequence joining.
-  ``join``, ``word_join``, ``and_join``, ``or_join``, ``joinlines``, and
-  ``items`` are functional and tested, but still less mature than the
-  rest of the codebase.
-
-* See ``CHANGES.yml`` for more complete change log.
-
 * ``quoter`` provides simple transformations that could be alternatively
-  implemented as a series of small functions. The problem is that such "little
-  functions" tend to be constantly re-implemented, in different ways, and
-  spread through many programs. That need to constantly re-implement such
-  common and straightforward text formatting has led me to re-think how
-  software should format text. ``quoter`` is one facet of a project to
-  systematize higher-level formatting operations. See `say <http://pypi.python.org/pypi/say>`_
-  and `show <http://pypi.python.org/pypi/show>`_
-  for other parts of the larger effort.
+  implemented as a series of small functions. The problem is that such
+  "little functions" tend to be constantly re-implemented, in different
+  ways, and spread through many programs. That need to constantly
+  re-implement such common and straightforward text formatting has led me to
+  re-think how software should format text. ``quoter`` is one facet of a
+  project to systematize higher-level formatting operations. See `say
+  <http://pypi.python.org/pypi/say>`_ and `show
+  <http://pypi.python.org/pypi/show>`_ for other parts of the larger effort.
 
-* ``quoter`` is also a test case for `options <http://pypi.python.org/pypi/options>`_,
-  a module that supports flexible option handling. In fact, it is one of ``options`` most
-  extensive test cases, in terms of subclassing and dealing with named styles.
+* ``quoter`` is also a test case for `options
+  <http://pypi.python.org/pypi/options>`_, a module that supports flexible
+  option handling. In fact, it is one of ``options`` most extensive test
+  cases, in terms of subclassing and dealing with named styles.
 
-* In the future, additional quoting styles such as ones for Markdown or RST format
-  styles might appear. It's not hard to subclass ``Quoter`` for new languages.
+* In the future, additional quoting styles such as ones for Markdown or RST
+  format styles might appear. It's not hard to subclass ``Quoter`` for new
+  languages.
 
 * You might look at some of the modules for ANSI-coloring text such as
   `ansicolors <https://pypi.python.org/pypi/ansicolors>`_ as being

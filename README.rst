@@ -62,10 +62,10 @@ Yields::
     <!-- content ends here -->
 
 This clearly goes beyond "simply wrapping some text with other text." The
-output format varies widely, corectly interpreting CSS Selector-based
+output format varies widely, correctly interpreting CSS Selector-based
 controls, using void/self-closing elements where needed, and specialized
 markup. The HTML quoter and its companion XML quoter are competitive in
-power and simplicity with bespoke markup-generating packges.
+power and simplicity with bespoke markup-generating packages.
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::
@@ -92,9 +92,16 @@ Yields::
 Which shows a range of separators, separation styles (both Oxford and
 non-Oxford commas), endcaps, padding, and individual item quoting. I
 daresay you will not find a more flexible or configurable ``join``
-function *anywhere* else, in 
+function *anywhere* else, in
 any programming language, at any price.
+
+And if you like any particular style of formatting, make it your own::
+
+    >>> my_join = join.but(sep=" | ", endcaps=braces.but(padding=1))
+    >>> print my_join(mylist)
+    { A | B | C | D }
+
+Now you have a convenient specialized formatter to your own specifications.
 
 See `the rest of the story
 at Read the Docs <http://quoter.readthedocs.org/en/latest/>`_.
-

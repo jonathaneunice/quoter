@@ -21,7 +21,7 @@ setup(
     version='1.5.0',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
-    description="Most powerful way to construct text in Python, plus a kick-ass join",
+    description="Powerful way to construct text, HTML, and XML, plus a kick-ass join",
     long_description=open('README.rst', encoding='utf-8').read(),
     url='https://bitbucket.org/jeunice/quoter',
     license='Apache License 2.0',

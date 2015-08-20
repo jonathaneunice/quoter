@@ -226,103 +226,83 @@ class XMLQuoter(Quoter):
         # Restating basic init to avoid errors of self.__getattribute__
         # that can flummox superclass instantiation
         Quoter.__init__(self)
+
+        # take the atts kwargs for special interpretation
+        kw_atts_atts = style_attribs(kwargs.pop('atts', None))
+
+        # update remaining kwargs
         opts = self.options = self.__class__.options.push(kwargs)
-        self._flatargs(args)
         self._register_name(opts.name)
 
-        create_atts = opts.atts
-        opts.tag, opts.atts = self._parse_selector(opts.tag)
-        if create_atts:
-            opts.atts.update(create_atts)
-        # explicit addition of atts
+        # process flat args
+        tagspec, attspec = pad(args, 2)
 
-        # NB this is an explicit multi-setter
+        # combine style attributes from kwargs and flat args
+        # (in reverse order of priority)
+        atts = {}
+        update_style_dict(atts, kw_atts_atts)
+        update_style_dict(atts, kwargs)
+        update_style_dict(atts, style_attribs(attspec))
+        update_style_dict(atts, style_attribs(tagspec))
 
-    def _flatargs(self, args):
-        """
-        Consume 'flat' *args if present when object is constructed.
-        """
-        if args:
-            self.options.addflat(args, ['tag', 'atts'])
+        #print "args:", repr(args)
+        #print "tagspec, attspec:", repr(tagspec), repr(attspec)
+        #print "atts:", atts
+
+        # finally set the object's key values
+        opts.tag = atts.pop('_tag', None) or opts.tag
+        opts.atts = atts
+
 
     def _attstr(self, atts, opts):
         """
-        Format an attribute dict.
+        Format an attribute dict. Uses this object's default attribute quoter.
         """
         return ' '.join([''] + ["{0}={1}".format(k, opts.attquote(v)) for k, v in atts.items()])
 
-    def _parse_selector(self, selector):
-        """
-        Parse a selector (modeled on jQuery and CSS). Returns a (tagname, id, classes)
-        tuple.
-        """
-        if selector is None:
-            return (None, {})
-        tagnames = re.findall(r'^(\w+)',      selector)
-        classes  = re.findall(r'\.([\w\-]+)', selector)
-        ids      = re.findall(r'\#([\w\-]+)', selector)
-        assert len(tagnames) <= 1
-        assert len(ids) <= 1
-        atts = {}
-        if ids:
-            atts['id'] = ids[0]
-        if classes:
-            atts['class'] = ' '.join(classes)
-        return (tagnames[0] if tagnames else None, atts)
 
     def __call__(self, *args, **kwargs):
         """
         Quote a value in X/HTML style, with optional attributes.
         """
-        if 'style' in kwargs:
-            stylename = kwargs['style']
-            del kwargs['style']
+        stylename = kwargs.pop('style', None)
+        if stylename:
             cls = self.__class__
             return cls.styles[stylename](*args, **kwargs)
         else:
+            # if not args and not opts.void:
+            #    return self.clone(**kwargs)
 
-            if 'atts' in kwargs:
-                catts = kwargs['atts']
-                del kwargs['atts']
-            else:
-                catts = {}
+            # take the atts kwargs for special interpretation
+            kw_atts_atts = style_attribs(kwargs.pop('atts', None))
 
+            # update remaining kwargs
             opts = self.options.push(kwargs)
-            pstr, mstr = self._whitespace(opts)
 
-            value = ''
-            if len(args) > 0:
-                if opts.void:
-                    catts = args[0]
-                else:
-                    value = args[0]
-            if len(args) > 1:
-                catts = args[1]
-            if len(args) > 2:
-                raise ValueError('just one or two args, please')
-
-            if not args and not opts.void:
-                return self.clone(**kwargs)
-
-            # do we need some special processing to remove atts from the kwargs?
-            # or some magic to integrate call atts to with existing atts?
-            # or ..?
-            # this is a good test / hard case for the magial processing
-            # probably magic
-
-            callatts = self._parse_selector(catts)[1] if is_string(catts) else catts
-            atts = {}
-            if opts.atts:
-                if is_string(opts.atts):
-                    atts.update(self._parse_selector(catts)[1])
-                else:
-                    atts.update(opts.atts)
-            if callatts:
-                atts.update(callatts)
+            # process flat args
             if opts.void:
-                atts.update(kwargs)
+                spec = args[0] if args else ''
+                value = None
+            else:
+                value, spec = pad(args, 2)
 
+            # combine style attributes from opts, kwargs, and flat args
+            # (in reverse order of priority)
+            atts = {}
+            update_style_dict(atts, style_attribs(opts.atts))
+            update_style_dict(atts, kwargs)
+            update_style_dict(atts, kw_atts_atts)
+            # print "spec:", spec
+            # print "sa spec:", style_attribs(spec)
+            update_style_dict(atts, style_attribs(spec))
+            # print "opts.ATTS:", opts.atts
+            # print "ATTS:", atts
+
+            # construct the resulting attribute string
             astr = self._attstr(atts, opts) if atts else ''
+
+
+            pstr, mstr = self._whitespace(opts)
             ns = opts.ns + ':' if opts.ns else ''
             if opts.void or not args:
                 parts = [ mstr, '<', ns, opts.tag, astr, '>', mstr ]

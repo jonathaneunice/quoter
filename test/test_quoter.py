@@ -198,13 +198,23 @@ def test_para():
 
     para_e = HTMLQuoter('p.emphatic')
     assert para_e('this is great!') == "<p class='emphatic'>this is great!</p>"
-    assert para_e('this is great?', '.question') == "<p class='question'>this is great?</p>"
+    assert para_e('this is great?', '.question') == "<p class='question emphatic'>this is great?</p>"
 
     para = HTMLQuoter('p', attquote=double)
     assert para('this is great!', {'class':'emphatic'}) == '<p class="emphatic">this is great!</p>'
 
     div = HTMLQuoter('div', attquote=double)
     assert div('something', '.todo') == '<div class="todo">something</div>'
+
+
+@pytest.mark.skipif('True', reason='road out')
+def test_css_selector():
+    assert html('joe', 'b.name') == "<b class='name'>joe</b>"
+    assert xml('joe', 'b.name') == "<b class='name'>joe</b>"
+
+    assert xml('joe', 'name#emp0193') == "<name id='emp0193'>joe</name>"
+
+# FIXME: Either the test is broken, or the code is. Believe it's the code
 
 
 def test_void():

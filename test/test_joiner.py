@@ -5,6 +5,7 @@ import pytest
 import six
 import sys
 
+
 ### Helper functions
 
 def single(s):

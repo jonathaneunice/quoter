@@ -503,6 +503,11 @@ Notes
 * In the future, additional quoting styles such as ones for Markdown or RST format
   styles might appear. It's not hard to subclass ``Quoter`` for new languages.
 
+* You might look at some of the modules for ANSI-coloring text such as
+  `ansicolors <https://pypi.python.org/pypi/ansicolors>`_ as being
+  special cases of the ``quoter`` idea.  While ``quoter`` doesn't
+  provide this specific kind of wrapping, it's in-line with the mission.
+
 * Automated multi-version testing managed with the wonderful
   `pytest <http://pypi.python.org/pypi/pytest>`_,
   `pytest-cov <http://pypi.python.org/pypi/pytest-cov>`_,

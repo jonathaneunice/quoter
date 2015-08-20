@@ -488,17 +488,17 @@ of``quoter``, or not, as you see fit.
 Notes
 =====
 
+* Version 1.4 is a major update, making the
+  complex argument handling for ``XMLQuoter``
+  ``HTMLQuoter`` much more robust and extensible. Adds
+  Adds direct attribute setting ``[key=value]`` to the
+  CSS selector specification language. Advances test line coverage
+  to 100%.
+
 * Version 1.3 ships the first release of integrated sequence joining.
   ``join``, ``word_join``, ``and_join``, ``or_join``, ``joinlines``, and
   ``items`` are functional and tested, but still less mature than the
   rest of the codebase.
-
-* Version 1.2 institutes full named styles within each quoting class.
-  Tests and docs tweaked.
-
-* Version 1.1 cleans up HTML quoting, esp. re void / self-closing elements.
-  Added new double-backtick functions. Changed to Apache License 2.0.
-  Updated docs and testing matrix.
 
 * See ``CHANGES.yml`` for more complete change log.
 

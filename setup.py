@@ -21,7 +21,7 @@ setup(
     version='1.4.2',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
-    description="Simple, systematic way to quote, join, and textually wrap Python data",
+    description="Most powerful way to construct text in Python, plus a kick-ass join",
     long_description=open('README.rst', encoding='utf-8').read(),
     url='https://bitbucket.org/jeunice/quoter',
     license='Apache License 2.0',

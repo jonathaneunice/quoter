@@ -43,7 +43,10 @@ Usage
     print braces('curlysue', padding=1)
                                # { curlysue }
 
-And for a taste of some more advanced functionality, quoting HTML
+Cute...but way too simple to be useful, right? Read on!
+
+Let's try something more complicated, where the output has to be
+intelligently based on context. Here's a taste of quoting some HTML
 content::
 
     print html.p("A para", ".focus")
@@ -59,9 +62,10 @@ Yields::
     <!-- content ends here -->
 
 This clearly goes beyond "simply wrapping some text with other text." The
-output format varies widely and intelligently based on context, including
-modification with CSS Selector controls, appropriately void/self-closing
-elements, and specialized markup.
+output format varies widely, corectly interpreting CSS Selector-based
+controls, using void/self-closing
+elements where needed, and specialized markup. There is a general XML quoter
+as well.
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::
@@ -69,7 +73,7 @@ Finally, ``quoter`` provides a drop-dead simple, highly functional,
     mylist = list("ABCD")
     print join(mylist)
     print join(mylist, sep=" | ", endcaps=braces)
-    print join(mylist, sep=" | ", endcaps=braces.clone(padding=1))
+    print join(mylist, sep=" | ", endcaps=braces.but(padding=1))
     print and_join(mylist)
     print and_join(mylist, quoter=double, lastsep=" and ")
 
@@ -86,7 +90,5 @@ non-Oxford commas), endcaps, padding, and individual item quoting. I
 daresay you will not find a more flexible or configurable ``join``
 function *anywhere* else in the Python world.
 
-
 See `the rest of the story
 at Read the Docs <http://quoter.readthedocs.org/en/latest/>`_.
-

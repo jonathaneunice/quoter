@@ -147,7 +147,7 @@ def test_lambdaq_named_style():
     assert lambdaq(-44, style='warning') == '**-44**'
 
 
-def test_html_example():
+def test_html_examples():
     assert html.p("A para", ".focus") == "<p class='focus'>A para</p>"
     assert html.img('.large', src='file.jpg') in [
         "<img class='large' src='file.jpg'>",
@@ -155,6 +155,17 @@ def test_html_example():
         ]
     assert html.br() == "<br>"
     assert html.comment("content ends here") == "<!-- content ends here -->"
+
+
+    assert html('hey', 'p#one.main.special[lang=en]') in [
+        "<p id='one' class='main special' lang='en'>hey</p>",
+        "<p id='one' lang='en' class='main special'>hey</p>",
+        "<p class='main special' id='one' lang='en'>hey</p>",
+        "<p class='main special' lang='en' id='one'>hey</p>",
+        "<p lang='en' id='one' class='main special'>hey</p>",
+        "<p lang='en' class='main special' id='one'>hey</p>",
+        ]
+        # all the permutations!
 
 
 def test_examples():

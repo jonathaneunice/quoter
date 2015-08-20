@@ -1,3 +1,16 @@
+
+-
+    version: 1.4.2
+    date: August 20, 2015
+    notes: >
+        Docs were getting long. Truncated ``README.rst`` and
+        converted majority to Sphinx docs to be hosted on readthedocs.
+-
+    version: 1.4.1
+    date: August 20, 2015
+    notes: >
+        Documentation fix.
+        
 - 
     version: 1.4.0
     date: August 20, 2015

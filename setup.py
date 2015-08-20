@@ -18,7 +18,7 @@ def lines(text):
 
 setup(
     name='quoter',
-    version='1.4.4',
+    version='1.5.0',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Most powerful way to construct text in Python, plus a kick-ass join",

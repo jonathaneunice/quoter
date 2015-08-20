@@ -46,7 +46,7 @@ Usage
 And for a taste of some more advanced functionality, quoting HTML
 content::
 
-    print html.p("A para", ".focus
+    print html.p("A para", ".focus")
     print html.img('.large', src='file.jpg')
     print html.br()
     print html.comment("content ends here")

@@ -1,5 +1,6 @@
 include README.rst
 include CHANGES.yml
+recursive-include docs *.rst
 recursive-include quoter *.py
 recursive-include test *.py
 include pytest.ini

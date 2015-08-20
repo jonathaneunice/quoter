@@ -240,14 +240,11 @@ def test_para():
     assert div('something', '.todo') == '<div class="todo">something</div>'
 
 
-@pytest.mark.skipif('True', reason='road out')
 def test_css_selector():
     assert html('joe', 'b.name') == "<b class='name'>joe</b>"
     assert xml('joe', 'b.name') == "<b class='name'>joe</b>"
 
     assert xml('joe', 'name#emp0193') == "<name id='emp0193'>joe</name>"
-
-# FIXME: Either the test is broken, or the code is. Believe it's the code
 
 
 def test_void():

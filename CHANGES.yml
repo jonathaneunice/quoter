@@ -1,4 +1,14 @@
-
+- 
+    version: 1.4.4
+    date: August 20, 2015
+    notes: >
+        Added "naked" invocations of primary quoter front-ends,
+        such as ``html("joe", "b.one")``.
+        This allows quoters to take on primary information (such
+        as the tag name) during each call.  This was long planned
+        for the API, but had been sidelined due to now-quashed
+        complexity.
+        
 - 
     version: 1.4.3
     date: August 20, 2015

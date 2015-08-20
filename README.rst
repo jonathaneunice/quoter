@@ -63,9 +63,9 @@ Yields::
 
 This clearly goes beyond "simply wrapping some text with other text." The
 output format varies widely, corectly interpreting CSS Selector-based
-controls, using void/self-closing
-elements where needed, and specialized markup. There is a general XML quoter
-as well.
+controls, using void/self-closing elements where needed, and specialized
+markup. The HTML quoter and its companion XML quoter are competitive in
+power and simplicity with bespoke markup-generating packges.
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::

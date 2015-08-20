@@ -18,6 +18,19 @@ def brackets(s):
 
 ### Tests
 
+
+def test_doc_example():
+
+    mylist = list("ABCD")
+    assert join(mylist) == "A, B, C, D"
+    assert join(mylist, sep=" | ", endcaps=braces) == "{A | B | C | D}"
+    assert join(mylist, sep=" | ", endcaps=braces.clone(padding=1)) == \
+            "{ A | B | C | D }"
+    assert and_join(mylist) == "A, B, C, and D"
+    assert and_join(mylist, quoter=double, lastsep=" and ") == \
+            '"A", "B", "C" and "D"'
+
+
 def test_is_sequence():
     assert not is_sequence('this')
     assert not is_sequence(six.u('this'))

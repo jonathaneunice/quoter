@@ -47,6 +47,7 @@ def test_parse_css_selector():
 
     pcs = parse_css_selector
 
+    assert pcs(None) == {}
     assert pcs("b") == { '_tag': 'b' }
     assert pcs("b.one") == { '_tag': 'b', 'class': 'one' }
     assert pcs("b.one.two") == { '_tag': 'b', 'class': 'one two' }

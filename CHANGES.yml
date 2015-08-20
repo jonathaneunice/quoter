@@ -1,3 +1,20 @@
+- 
+    version: 1.4.0
+    date: August 20, 2015
+    notes: >
+        Major rewrite of complex argument handling for XMLQuoter (and
+        HTMLQuoter subclass). Should be much more robust and extensible.
+        Refactored some functions into ``util.py``
+      
+        Adds direct attribute setting ``[key=value]`` to the
+        CSS selector specification language.
+
+        Improved testing. Added new tests of sub-cases of parsing the
+        arguments. Updated strategy to have quicker basic tests with
+        ``sudo tox``, but easy full coverage analysis with 
+        ``sudo tox -c toxcov.ini``. Advances test line coverage
+        to 100%.
+
 -
     version: 1.3.6
     date: August 17, 2015

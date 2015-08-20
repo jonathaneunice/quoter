@@ -123,9 +123,14 @@ class Quoter(OptionsClass):
             cloned._register_name(name)
         return cloned
 
+
+    but = clone
+
+
     def __getattribute__(self, name):
         if name.startswith('_') or name == 'options' or name == 'styles' \
-            or name == 'set' or name =='settings' or name == 'clone':
+            or name == 'set' or name =='settings' or name == 'clone' \
+            or name == 'but':
             return object.__getattribute__(self, name)
         cls = object.__getattribute__(self, '__class__')
         cdict = object.__getattribute__(cls, '__dict__')
@@ -292,11 +297,11 @@ class XMLQuoter(Quoter):
             update_style_dict(atts, style_attribs(opts.atts))
             update_style_dict(atts, kwargs)
             update_style_dict(atts, kw_atts_atts)
-            # print "spec:", spec
-            # print "sa spec:", style_attribs(spec)
             update_style_dict(atts, style_attribs(spec))
-            # print "opts.ATTS:", opts.atts
-            # print "ATTS:", atts
+
+            # if there is a local tag, let it come in force
+            opts.tag = atts.pop('_tag', None) or opts.tag
+
 
             # construct the resulting attribute string
             astr = self._attstr(atts, opts) if atts else ''

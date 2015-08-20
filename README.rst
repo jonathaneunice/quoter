@@ -25,7 +25,7 @@
     :alt: Wheel packaging support
     :target: https://pypi.python.org/pypi/quoter
 
-.. |coverage| image:: https://img.shields.io/badge/test_coverage-98%25-blue.svg
+.. |coverage| image:: https://img.shields.io/badge/test_coverage-100%25-6600CC.svg
     :alt: Test line coverage
     :target: https://pypi.python.org/pypi/quoter
 
@@ -46,13 +46,15 @@ Usage
 And for a taste of some more advanced functionality, quoting HTML
 content::
 
-    print html.p("A para", ".focus")
+    print html.p("A para", ".focus
+    print html.img('.large', src='file.jpg')
     print html.br()
     print html.comment("content ends here")
 
 Yields::
 
     <p class='focus'>A para</p>
+    <img class='large' src='file.jpg'>
     <br>
     <!-- content ends here -->
 
@@ -61,13 +63,13 @@ output format varies widely and intelligently based on context, including
 modification with CSS Selector controls, appropriately void/self-closing
 elements, and specialized markup.
 
-Finally, ``quoter`` provides drop-dead simple, yet highly functional,
-ways to join sequence items
-together. For example::
+Finally, ``quoter`` provides a drop-dead simple, highly functional,
+``join`` function::
 
     mylist = list("ABCD")
     print join(mylist)
     print join(mylist, sep=" | ", endcaps=braces)
+    print join(mylist, sep=" | ", endcaps=braces.clone(padding=1))
     print and_join(mylist)
     print and_join(mylist, quoter=double, lastsep=" and ")
 
@@ -75,11 +77,14 @@ Yields::
 
     A, B, C, D
     {A | B | C | D}
+    { A | B | C | D }
     A, B, C, and D
     "A", "B", "C" and "D"
 
 Which shows a range of separators, separation styles (both Oxford and
-non-Oxford commas), endcaps, and individual item quoting.
+non-Oxford commas), endcaps, padding, and individual item quoting. I
+daresay you will not find a more flexible or configurable ``join``
+function *anywhere* else in the Python world.
 
 Discussion
 ==========
@@ -353,20 +358,31 @@ the ``html`` front-end, just like the pre-defined tags. For instance::
     para_e = HTMLQuoter('p.emphatic', name='para_e')
     print para_e('this is great!')
     print html.para_e('this is great?', '.question')
-    print html.img(src='somefile')
+    print html.img('.large', src='somefile')
     print html.br()
 
 Yields::
 
     <p class='emphatic'>this is great!</p>
-    <p class='question'>this is great?</p>
-    <img src='somefile'>
+    <p class='question emphatic'>this is great?</p>
+    <img class='large' src='somefile'>
     <br>
 
 ``HTMLQuoter`` quotes attributes by default with single quotes. If you
 prefer double quotes, you may set them when the element is defined::
 
     div = HTMLQuoter('div', attquote=double)
+
+.. note:: Some output may show HTML and XML elements in a different order
+    that described in the documentation. This is because Python ``dict``
+    data structures in which keyword arguments are stored are expressly
+    unordered. In practice, their order is implementation dependent, and
+    varies based on whether you're running on Python 2, Python 3, or
+    PyPy. ``quoter`` always produces correct output, but the ordering
+    may be subtly different from the order suggested by the source code.
+    If this variance bothers you, please join me in lobbying for dictionary
+    ordering (``OrderedDict``) to become the standard behavior for kwargs
+    in future versions of Python.
 
 XML
 ===

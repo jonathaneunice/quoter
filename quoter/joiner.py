@@ -20,6 +20,11 @@ join_options = Options(
 )
 
 
+# TODO: Rationalize with respect to more sophisticated quoter args
+# TODO: Rationalizw wrt more sophisticated quoter class structure and extensibility
+# TODO: Add padding and margin, like quoter
+
+
 def join(seq, **kwargs):
     """
     Join the items of a sequence into a string. Implicitly stringifies any
@@ -92,6 +97,10 @@ def or_join(seq, **kwargs):
     kwargs.setdefault('twosep', ' or ')
     kwargs.setdefault('lastsep', ', or ')
     return join(seq, **kwargs)
+
+
+# with a class-based structure, and_join, or_join, and joinlines would
+# be instances not functions on their own
 
 
 def is_sequence(arg):

@@ -35,6 +35,21 @@ def test_clone():
     assert html.b('this') == '<b>this</b>'
 
 
+def test_but():
+    """
+    Test the but alias for clone.
+    """
+    bar2 = brackets.but(margin=2)
+    assert bar2 is not brackets
+    assert bar2('this') == '  [this]  '
+    assert brackets('this') == '[this]'
+
+    bb = html.b.but(padding=1, margin=2)
+    assert bb is not html.b
+    assert bb('this') == '  <b> this </b>  '
+    assert html.b('this') == '<b>this</b>'
+
+
 def test_set():
     bar2 = brackets.clone(margin=2, name='bar2')
     assert bar2('this') == '  [this]  '
@@ -134,6 +149,10 @@ def test_lambdaq_named_style():
 
 def test_html_example():
     assert html.p("A para", ".focus") == "<p class='focus'>A para</p>"
+    assert html.img('.large', src='file.jpg') in [
+        "<img class='large' src='file.jpg'>",
+        "<img src='file.jpg' class='large'>"
+        ]
     assert html.br() == "<br>"
     assert html.comment("content ends here") == "<!-- content ends here -->"
 
@@ -195,6 +214,9 @@ def test_para():
     # assert para('this is great!', {'class':'emphatic'}) == "<p class='emphatic'>this is great!</p>"
     assert para('this is great!', '.emphatic') == "<p class='emphatic'>this is great!</p>"
     assert para('First para!', '#first') == "<p id='first'>First para!</p>"
+    assert para('First para!', '#first', atts='.one') in [
+        "<p id='first' class='one'>First para!</p>",
+        "<p class='one' id='first'>First para!</p>"]
 
     para_e = HTMLQuoter('p.emphatic')
     assert para_e('this is great!') == "<p class='emphatic'>this is great!</p>"
@@ -207,7 +229,7 @@ def test_para():
     assert div('something', '.todo') == '<div class="todo">something</div>'
 
 
-@pytest.mark.skipif('True', reason='road out')
+# @pytest.mark.skipif('True', reason='road out')
 def test_css_selector():
     assert html('joe', 'b.name') == "<b class='name'>joe</b>"
     assert xml('joe', 'b.name') == "<b class='name'>joe</b>"

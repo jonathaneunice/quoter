@@ -13,6 +13,9 @@ class BadStyleName(ValueError):
     pass
 
 
+QUOTER_ATTRS = set(['options', 'styles', 'set', 'settings', 'clone', 'but'])
+# set of attribute names to support __getattribute__ implementation
+
 class Quoter(OptionsClass):
 
     """
@@ -128,9 +131,7 @@ class Quoter(OptionsClass):
 
 
     def __getattribute__(self, name):
-        if name.startswith('_') or name == 'options' or name == 'styles' \
-            or name == 'set' or name =='settings' or name == 'clone' \
-            or name == 'but':
+        if name in QUOTER_ATTRS or name.startswith('_'):
             return object.__getattribute__(self, name)
         cls = object.__getattribute__(self, '__class__')
         cdict = object.__getattribute__(cls, '__dict__')

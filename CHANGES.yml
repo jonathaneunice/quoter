@@ -1,3 +1,14 @@
+-
+    version: 1.5.5
+    date: August 24, 2015
+    notes: >
+        Start of a Markdown capability. It is at a experimental, proof of
+        concept, or demonstration stage rather than production-use stage at
+        present--much as HTML and XML quoting functions were a few releases
+        back. The initial goal is to stretch the ``quoter`` use-case and
+        prove/harden its extension mechanisms. Even at its inaugural stage,
+        it is doing just that.
+
 - 
     version: 1.5.3
     date: August 23, 2015

@@ -1,6 +1,24 @@
 Change Log
 ==========
 
+Version 1.5.6 (August 24, 2015)
+'''''''''''''''''''''''''''''''
+
+* Start of a Markdown capability. It is at a experimental, proof of
+  concept, or demonstration stage rather than production-use stage at
+  present--much as HTML and XML quoting functions were a few releases
+  back. The initial goal is to stretch the ``quoter`` use-case and
+  prove/harden its extension mechanisms. Even at its inaugural stage,
+  it is doing just that.
+
+
+Version 1.5.3 (August 23, 2015)
+'''''''''''''''''''''''''''''''
+
+* Reorg of XML and HTML code into own module. Parallel reorg of tests.
+  All tests passing.
+
+
 Version 1.5.2 (August 23, 2015)
 '''''''''''''''''''''''''''''''
 

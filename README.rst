@@ -70,6 +70,9 @@ output format varies widely, correctly interpreting CSS Selector-based
 controls, using void/self-closing elements where needed, and specialized
 markup. The HTML quoter and its companion XML quoter are competitive in
 power and simplicity with bespoke markup-generating packages.
+(A similar generator for Markdown
+is also newly included, though it's a the "demonsration" rather than
+"use" stage.)
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::

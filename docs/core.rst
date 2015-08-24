@@ -303,6 +303,18 @@ much more unit-testable. But, one might argue that such full transformations
 are "a bridge too far" for a quoting module. So use the dynamic component
 of``quoter``, or not, as you see fit.
 
+Markdown
+========
+
+An experimental Markdown formatter has been added. It is quite simple at
+present, supporting just ``i`` (italics), ``b`` (bold), ``a`` (anchor, or
+link), ``p`` (paragraph), and ``doc`` (document) functions.
+
+List, heading, image, blockquote, and code-block formatting are next steps.
+At this demonstration stage, the goal is to stretch the ``quoter`` use-case
+and prove/harden its extension mechanisms, which it is already doing. Stay
+tuned for more extensive functions and documentation.
+
 Joiners
 =======
 
@@ -408,4 +420,3 @@ Notes
 * The author, `Jonathan Eunice <mailto:jonathan.eunice@gmail.com>`_ or
   `@jeunice on Twitter <http://twitter.com/jeunice>`_ welcomes your comments
   and suggestions.
-

@@ -1,3 +1,9 @@
+- 
+    version: 1.5.3
+    date: August 23, 2015
+    notes: >
+        Reorg of XML and HTML code into own module. Parallel reorg
+        of tests. All tests passing.
 -
     version: 1.5.2
     date: August 23, 2015

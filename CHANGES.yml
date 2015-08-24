@@ -1,4 +1,11 @@
 -
+    version: 1.5.2
+    date: August 23, 2015
+    notes: >
+        Starts automatic collection of test branch coverage. Begins with
+        99% coverage.
+        
+-
     version: 1.5.0
     date: August 20, 2015
     notes: >

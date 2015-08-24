@@ -1,5 +1,5 @@
 
-| |travisci| |version| |downloads| |supported-versions| |supported-implementations| |wheel| |coverage|
+| |travisci| |version| |downloads| |versions| |impls| |wheel| |coverage| |br-coverage|
 
 .. |travisci| image:: https://travis-ci.org/jonathaneunice/quoter.svg?branch=master
     :alt: Travis CI build status
@@ -13,11 +13,11 @@
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/quoter
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/quoter.svg
+.. |versions| image:: https://img.shields.io/pypi/pyversions/quoter.svg
     :alt: Supported versions
     :target: https://pypi.python.org/pypi/quoter
 
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/quoter.svg
+.. |impls| image:: https://img.shields.io/pypi/implementation/quoter.svg
     :alt: Supported implementations
     :target: https://pypi.python.org/pypi/quoter
 
@@ -27,6 +27,10 @@
 
 .. |coverage| image:: https://img.shields.io/badge/test_coverage-100%25-6600CC.svg
     :alt: Test line coverage
+    :target: https://pypi.python.org/pypi/quoter
+
+.. |br-coverage| image:: https://img.shields.io/badge/test_coverage-99%25-blue.svg
+    :alt: Test branch coverage
     :target: https://pypi.python.org/pypi/quoter
 
 Usage

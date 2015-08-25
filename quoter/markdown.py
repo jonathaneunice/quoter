@@ -11,7 +11,7 @@ def show(*args, **kwargs):
     pass
 
 
-MD_ATTRS = set(['a', 'p', 'doc'])
+MD_ATTRS = set(['a', 'p', 'doc', 'h'])
 MD_ATTRS.update(QUOTER_ATTRS)
 
 class MDQuoter(Quoter):
@@ -58,6 +58,38 @@ class MDQuoter(Quoter):
     def doc(self, seq, **kwargs):
         opts = self.options.push(kwargs)
         return joinlines(seq, sep="\n\n")
+        # FIXME: kwargs not really used
+
+    def h(self, text, level=1, close=False, setext=False, **kwargs):
+        """
+        Headers at varous levels. Either atx style (hashmark prefix)
+        by default, or Setext (underlining) style optionally.
+        """
+        opts = self.options.push(kwargs)
+        if setext:
+            char = '=' if level == 1 else '-'
+            parts = [text, '\n', char * len(text), '\n']
+        else:
+            prefix = "#" * level
+            parts = [prefix, ' ', text]
+            if close:
+                parts.extend([' ', prefix])
+        return self._output(parts, opts)
+
+# see http://daringfireball.net/projects/markdown/syntax
+# for basic syntax
+
+# TODO: blockquote
+# TODO: code
+# TODO: list (ordered)
+# TODO: list (unordered)
+# TODO: hr
+# TODO: image
+# TODO: automatic link
+# TODO: footnote
+# TODO: table
+# TODO: literal asterisks
+# TODO: get vsep working
 
     # need this because basic joiners dont do varargs yet
 

@@ -9,6 +9,28 @@ def test_md_basic():
                 "[CNN](http://www.cnn.com)"
 
 
+def test_md_h():
+    assert md.h('title')    == "# title"
+    assert md.h('title', 1) == "# title"
+    assert md.h('title', 2) == "## title"
+    assert md.h('title', 3) == "### title"
+    assert md.h('title', 4) == "#### title"
+
+    # test close
+    assert md.h('title',    close=True) == "# title #"
+    assert md.h('title', 1, close=True) == "# title #"
+    assert md.h('title', 2, close=True) == "## title ##"
+    assert md.h('title', 3, close=True) == "### title ###"
+    assert md.h('title', 4, close=True) == "#### title ####"
+
+    # test setext
+    assert md.h('title',    setext=True) == "title\n=====\n"
+    assert md.h('title', 1, setext=True) == "title\n=====\n"
+    assert md.h('title', 2, setext=True) == "title\n-----\n"
+    assert md.h('title', 3, setext=True) == "title\n-----\n"
+    assert md.h('title', 4, setext=True) == "title\n-----\n"
+
+
 def test_md_p():
     assert md.p('this') == 'this'
     assert md.p('this ', md.i('and'), ' that') == 'this *and* that'

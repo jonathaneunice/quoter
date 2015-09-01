@@ -15,7 +15,7 @@ def lines(text):
 
 setup(
     name='quoter',
-    version='1.5.6',
+    version='1.5.7',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Powerful way to construct text, HTML, and XML, plus a kick-ass join",

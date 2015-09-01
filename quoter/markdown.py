@@ -6,13 +6,10 @@ from .util import *
 from .quoter import Quoter, QUOTER_ATTRS
 from .joiner import joinlines
 
-# from show import *
-def show(*args, **kwargs):
-    pass
-
 
 MD_ATTRS = set(['a', 'p', 'doc', 'h'])
 MD_ATTRS.update(QUOTER_ATTRS)
+
 
 class MDQuoter(Quoter):
 
@@ -35,7 +32,7 @@ class MDQuoter(Quoter):
         super(Quoter, self).__init__()
 
         opts = self.options = self.__class__.options.push(kwargs)
-        self._register_name(opts.name)
+        self._register_name(opts.name, MDQuoter)
 
     def __getattribute__(self, name):
         if name in MD_ATTRS or name.startswith('_'):
@@ -44,7 +41,7 @@ class MDQuoter(Quoter):
         cdict = object.__getattribute__(cls, '__dict__')
         if name in cdict:
             return cdict[name]
-        return cls(name, name=name)
+        # return cls(name, name=name)
 
     def a(self, text, href, **kwargs):
         opts = self.options.push(kwargs)
@@ -75,6 +72,10 @@ class MDQuoter(Quoter):
             if close:
                 parts.extend([' ', prefix])
         return self._output(parts, opts)
+
+    #def hr(self, **kwargs):
+    #    opts = self.options.push(kwargs)
+    #    return self._output(['-' * 4], opts)
 
 # see http://daringfireball.net/projects/markdown/syntax
 # for basic syntax

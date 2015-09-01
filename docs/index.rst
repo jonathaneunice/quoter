@@ -12,6 +12,16 @@ such as HTML and XML.
    :titlesonly:
 
    intro
-   core
+   Cloning and Setting <setting>
+   Formatting and Encoding <encoding>
+   Shortcuts <shortcuts>
+   Clean Imports <imports>
+   HTML <html>
+   XML <xml>
+   Named Styles <named>
+   Dynamic Quoters <dynamic>
+   Markdown <markdown>
+   Joiners <joiners>
+   Notes <notes>
    install
    CHANGES

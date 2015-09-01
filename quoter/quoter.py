@@ -120,7 +120,8 @@ class Quoter(OptionsClass):
         cloned instance's overlay options.
         """
         cloned = self.__class__()
-        name = kwargs.get('name')
+        name = kwargs.setdefault('name', None) # make sure there's a name
+                                               # even if it's None
         cloned.options = self.options.push(kwargs)
         if name:
             cloned._register_name(name)

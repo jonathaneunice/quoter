@@ -1,11 +1,11 @@
 
-| |travisci| |version| |downloads| |versions| |impls| |wheel| |coverage| 
+| |travisci| |version| |downloads| |versions| |impls| |wheel| |coverage|
 
 .. |travisci| image:: https://travis-ci.org/jonathaneunice/quoter.svg?branch=master
     :alt: Travis CI build status
     :target: https://travis-ci.org/jonathaneunice/quoter
 
-    .. |version| image:: http://img.shields.io/pypi/v/quoter.svg?style=flat
+.. |version| image:: http://img.shields.io/pypi/v/quoter.svg?style=flat
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/quoter
 

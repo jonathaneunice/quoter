@@ -59,14 +59,15 @@ not even content). So for example::
 
 The ``html`` object for ``HTMLQuoter`` (or corresponding ``xml`` for
 ``XMLQuoter``) is a convenient front-end that can be immediately
-used to provide simple markup language construction.
+used to provide simple markup language construction. (It's actually a
+``StyleSet`` that knows how to create new styles on-the-fly.)
 
 You can also access the underlying classes directly, and/or define
 your own customized quoters. Your own quoters can be called as a function
 would be. Or, if you give them a name, they can be called through
 the ``html`` front-end, just like the pre-defined tags. For instance::
 
-    para_e = HTMLQuoter('p.emphatic', name='para_e')
+    para_e = html._define('para_e', 'p.emphatic')
     print para_e('this is great!')
     print html.para_e('this is great?', '.question')
     print html.img('.large', src='somefile')
@@ -94,4 +95,3 @@ prefer double quotes, you may set them when the element is defined::
     If this variance bothers you, please join me in lobbying for dictionary
     ordering (``OrderedDict``) to become the standard behavior for kwargs
     in future versions of Python.
-

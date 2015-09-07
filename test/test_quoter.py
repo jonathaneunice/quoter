@@ -15,14 +15,32 @@ def test_brackets():
     assert brackets('this', margin=1) == ' [this] '
     assert brackets('this', padding=1, margin=1) == ' [ this ] '
 
+def test_other_named_ascii_styles():
+
+    assert angles('this') == '<this>'
+    assert parens('this') == '(this)'
+    assert qs('this') == single('this') == "'this'"
+    assert qd('this') == double('this') == '"this"'
+    assert qt('this') == triple('this') == '"""this"""'
+    assert qb('this') == backticks('this') == '`this`'
+    assert qdb('this') == doublebackticks('this') == '``this``'
+
+def test_named_unicode_styles():
+    assert anglequote('this') == guillemet('this') == six.u('\u00abthis\u00bb')
+    assert chevron('this') == six.u('\u2039this\u203a')
+    assert curlysingle('this') == six.u('\u2018this\u2019')
+    assert curlydouble('this') == six.u('\u201cthis\u201d')
+
 
 def test_clone():
-    # make sure clones properly registered just like normally defined
-    # styles, that clones are different from original, that they yield
-    # the expected results, and that after cloning, the originals
-    # behave exactly as before
+    """
+    Make sure clones properly registered just like normally defined
+    styles, that clones are different from original, that they yield
+    the expected results, and that after cloning, the originals
+    behave exactly as before
+    """
 
-    bar2 = brackets.clone(margin=2, name='bar2')
+    bar2 = quote.bar2 = brackets.clone(margin=2)
     assert bar2 is not brackets
     assert bar2('this') == '  [this]  '
     assert brackets('this') == '[this]'
@@ -30,7 +48,8 @@ def test_clone():
 
     bb = html.b.clone(padding=1, margin=2)
     assert bb is not html.b
-    assert 'bb' not in HTMLQuoter.styles
+    assert isinstance(html.b, HTMLQuoter)
+    assert isinstance(bb, HTMLQuoter)
     assert bb('this') == '  <b> this </b>  '
     assert html.b('this') == '<b>this</b>'
 
@@ -56,7 +75,7 @@ def test_but():
 
 
 def test_set():
-    bar2 = brackets.clone(margin=2, name='bar2')
+    bar2 = quote.bar2 = brackets.clone(margin=2)
     assert bar2('this') == '  [this]  '
     assert quote.bar2('this') == '  [this]  '
     # check that original object is not changed
@@ -90,11 +109,8 @@ def test_set_example():
     bart = bars.clone(prefix=']', suffix = '[')
     assert bart('x') == '] x ['
 
-
-# NB There is an error in namespace managment.
-# HTML attributes should be limited to HTMLQuoter,
-# but there is currently leakage. Styles seem to be
-# defined in Quoter, not the most proximate superclass
+    bartwide = bart.but(margin=2)
+    assert bartwide('x') == '  ] x [  '
 
 
 @pytest.mark.skipif(True, reason='road closed')
@@ -137,7 +153,7 @@ def test_lambda():
     assert password('secret!') == 'xxxxxxx'
 
     wf = lambda v:  ('**', v, '**') if v < 0 else ('', v, '')
-    warning = LambdaQuoter(wf, name='warning')
+    warning = lambdaq.warning = LambdaQuoter(wf)
     assert warning(12) == '12'
     assert warning(-99) == '**-99**'
     assert warning(-99, padding=1) == '** -99 **'
@@ -147,10 +163,6 @@ def test_lambda():
     assert lambdaq.warning(-99, padding=1) == '** -99 **'
 
 
-def test_lambdaq_named_style():
-    assert lambdaq(44, style='warning') == '44'
-    assert lambdaq(-44, style='warning') == '**-44**'
-    
 
 def test_examples():
     assert single('this') == "'this'"
@@ -165,18 +177,19 @@ def test_examples():
     plus = Quoter('+', '')
     assert plus('x') == '+x'
 
-    variable = Quoter('${', '}', name='variable')
+    variable = Quoter('${', '}')
     assert variable('x') == '${x}'
 
 
 def test_attribute_invocations():
     assert single('something') == quote.single('something')
-    assert single('something', margin=2, padding=3) == quote.single('something', margin=2, padding=3)
+    assert single('something', margin=2, padding=3) == \
+           quote.single('something', margin=2, padding=3)
     assert braces('b') == quote.braces('b')
 
     # now test wholesale
-    names = 'braces brackets angles parens qs qd qt qb single double triple ' +\
-            'backticks anglequote guillemet curlysingle curlydouble'
+    names = ('braces brackets angles parens qs qd qt qb single double triple '
+             'backticks anglequote guillemet chevron curlysingle curlydouble')
     for name in names.split():
         main = eval(name)
         attr = eval('quote.' + name)
@@ -184,26 +197,7 @@ def test_attribute_invocations():
         assert main('string') == attr('string')
 
 
-def test_quote_shortcut():
-    variable = Quoter('${', '}', name='variable')
-    assert variable('x') == '${x}'
-
-    assert quote('myvar', style='variable') == '${myvar}'
-
-    assert quote('this', style='braces') == '{this}'
-
-
-def test_named_quote_style():
-    assert quote('this', style='variable') == '${this}'
-    assert braces('this', style='variable') == '${this}'
-
-
 def test_redef():
-    braces = Quoter('{', '}', padding=1, name='braces')
+    braces = Quoter('{', '}', padding=1)
     assert braces('this') == '{ this }'
     assert braces('this', padding=0) == '{this}'
-
-
-def test_bad_style_names():
-    with pytest.raises(BadStyleName):
-        v = Quoter('v', name="_v")

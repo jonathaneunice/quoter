@@ -5,6 +5,7 @@ from options import Options, OptionsClass, Prohibited, Transient
 from .util import *
 from .quoter import Quoter, QUOTER_ATTRS
 from .joiner import joinlines
+from .styleset import StyleSet
 
 
 MD_ATTRS = set(['a', 'p', 'doc', 'h'])
@@ -16,8 +17,6 @@ class MDQuoter(Quoter):
     """
     A more sophisticated quoter for Markdown elements.
     """
-
-    styles = {}         # remember named styles
 
     options = Quoter.options.add(
         misc = Prohibited,
@@ -32,16 +31,6 @@ class MDQuoter(Quoter):
         super(Quoter, self).__init__()
 
         opts = self.options = self.__class__.options.push(kwargs)
-        self._register_name(opts.name, MDQuoter)
-
-    def __getattribute__(self, name):
-        if name in MD_ATTRS or name.startswith('_'):
-            return object.__getattribute__(self, name)
-        cls = object.__getattribute__(self, '__class__')
-        cdict = object.__getattribute__(cls, '__dict__')
-        if name in cdict:
-            return cdict[name]
-        # return cls(name, name=name)
 
     def a(self, text, href, **kwargs):
         opts = self.options.push(kwargs)
@@ -73,9 +62,37 @@ class MDQuoter(Quoter):
                 parts.extend([' ', prefix])
         return self._output(parts, opts)
 
-    #def hr(self, **kwargs):
-    #    opts = self.options.push(kwargs)
-    #    return self._output(['-' * 4], opts)
+    def h1(self, text, **kwargs):
+        kwargs['level'] = 1
+        return self.h(text, **kwargs)
+
+    def h2(self, text, **kwargs):
+        kwargs['level'] = 2
+        return self.h(text, **kwargs)
+
+    def h3(self, text, **kwargs):
+        kwargs['level'] = 3
+        return self.h(text, **kwargs)
+
+    def h4(self, text, **kwargs):
+        kwargs['level'] = 4
+        return self.h(text, **kwargs)
+
+    def h5(self, text, **kwargs):
+        kwargs['level'] = 5
+        return self.h(text, **kwargs)
+
+    def h6(self, text, **kwargs):
+        kwargs['level'] = 6
+        return self.h(text, **kwargs)
+
+    def h7(self, text, **kwargs):
+        kwargs['level'] = 7
+        return self.h(text, **kwargs)
+
+    def hr(self, **kwargs):
+        opts = self.options.push(kwargs)
+        return self._output(['-' * 5], opts)
 
 # see http://daringfireball.net/projects/markdown/syntax
 # for basic syntax
@@ -94,10 +111,14 @@ class MDQuoter(Quoter):
 
     # need this because basic joiners dont do varargs yet
 
-md = MDQuoter()
+md = StyleSet(
+        factory = MDQuoter,
+        immediate = MDQuoter(),
+        instant = False,
+        promote = 'but clone p a doc h')
 
-md.i = MDQuoter(prefix="*", suffix="*", name='i')
-md.b = MDQuoter(prefix="**", suffix="**", name='b')
+md.i = MDQuoter(prefix="*", suffix="*")
+md.b = MDQuoter(prefix="**", suffix="**")
 
 # _md_doc = joinlines.but(sep="\n\n")
 # MDQuoter.styles['doc'] = _md_doc

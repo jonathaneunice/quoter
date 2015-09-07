@@ -32,9 +32,14 @@ def test_para():
         "<p id='first' class='one'>First para!</p>",
         "<p class='one' id='first'>First para!</p>"]
 
-    para_e = HTMLQuoter('p.emphatic')
+    para_e = html._define('para_e', 'p.emphatic')
     assert para_e('this is great!') == "<p class='emphatic'>this is great!</p>"
     assert para_e('this is great?', '.question') == "<p class='question emphatic'>this is great?</p>"
+    assert para_e is html.para_e
+
+    para_e2 = HTMLQuoter('p.emphatic')
+    assert para_e2('this is great!') == "<p class='emphatic'>this is great!</p>"
+    assert para_e2('this is great?', '.question') == "<p class='question emphatic'>this is great?</p>"
 
     para = HTMLQuoter('p', attquote=double)
     assert para('this is great!', {'class':'emphatic'}) == '<p class="emphatic">this is great!</p>'
@@ -62,7 +67,7 @@ def test_void():
 
 
 def test_xml_examples():
-    item = XMLQuoter(tag='item', ns='inv', name='item inv_item')
+    item = xml._define('item inv_item', tag='item', ns='inv')
     assert item('an item') == '<inv:item>an item</inv:item>'
     assert xml.item('another') == '<inv:item>another</inv:item>'
     assert xml.inv_item('yet another') == '<inv:item>yet another</inv:item>'
@@ -96,29 +101,13 @@ def test_html_auto_and_attributes():
     assert html.img(src='one') == "<img src='one'>"
 
 
-def test_named_styles_in_proper_homes():
-    assert 'x' not in Quoter.styles
-    assert 'x' not in HTMLQuoter.styles
-    assert 'x' not in XMLQuoter.styles
-
-    x = Quoter('X', name='x')
-    assert x('y') == 'XyX'
-    assert 'x' in Quoter.styles
-
-    assert html.x("y") == "<x>y</x>"
-    assert 'x' in HTMLQuoter.styles
-
-    assert xml.x("y") == "<x>y</x>"
-    assert 'x' in XMLQuoter.styles
-
-
-def test_named_xml_and_html_styles():
-    XMLQuoter('book', name='book')
-    assert xml("this", style="book") == "<book>this</book>"
-
-
 # some problem exists with explicit atts setting here
 @pytest.mark.skipif('True')
 def test_xml_autogenerate():
     more = xml.b.clone(atts='.this')
     assert more('x') == "<b class='this'>x</b>"
+
+
+def test_cdata_and_pcdata():
+    assert xml.cdata('this') == '<![CDATA[this]]>'
+    assert xml.pcdata('that') == '<![PCDATA[that]]>'

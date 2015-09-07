@@ -59,27 +59,27 @@ def test_is_sequence():
 
 
 def test_oxford():
-    assert word_join([]) == ''
-    assert word_join([1]) == '1'
-    assert word_join([1, 2]) == '1 and 2'
-    assert word_join([1, 2, 3]) == '1, 2, and 3'
-    assert word_join([1, 2, 3, 4]) == '1, 2, 3, and 4'
+    assert and_join([]) == ''
+    assert and_join([1]) == '1'
+    assert and_join([1, 2]) == '1 and 2'
+    assert and_join([1, 2, 3]) == '1, 2, and 3'
+    assert and_join([1, 2, 3, 4]) == '1, 2, 3, and 4'
 
 
 def test_heathen():
     # non Oxford Comma
-    assert word_join([], lastsep=' and ') == ''
-    assert word_join([1], lastsep=' and ') == '1'
-    assert word_join([1, 2], lastsep=' and ') == '1 and 2'
-    assert word_join([1, 2, 3], lastsep=' and ') == '1, 2 and 3'
-    assert word_join([1, 2, 3, 4], lastsep=' and ') == '1, 2, 3 and 4'
+    assert and_join([], lastsep=' and ') == ''
+    assert and_join([1], lastsep=' and ') == '1'
+    assert and_join([1, 2], lastsep=' and ') == '1 and 2'
+    assert and_join([1, 2, 3], lastsep=' and ') == '1, 2 and 3'
+    assert and_join([1, 2, 3, 4], lastsep=' and ') == '1, 2, 3 and 4'
 
 
 def test_quoted():
-    assert word_join([], quoter=single) == ""
-    assert word_join([1], quoter=single) == "'1'"
-    assert word_join([1, 2], quoter=single) == "'1' and '2'"
-    assert word_join([1, 2, 3], quoter=single) == "'1', '2', and '3'"
+    assert and_join([], quoter=single) == ""
+    assert and_join([1], quoter=single) == "'1'"
+    assert and_join([1, 2], quoter=single) == "'1' and '2'"
+    assert and_join([1, 2, 3], quoter=single) == "'1', '2', and '3'"
 
 
 def test_listy():

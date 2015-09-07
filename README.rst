@@ -29,10 +29,6 @@
     :alt: Test line coverage
     :target: https://pypi.python.org/pypi/quoter
 
-.. |br-coverage| image:: https://img.shields.io/badge/branch_coverage-99%25-blue.svg
-    :alt: Test branch coverage
-    :target: https://pypi.python.org/pypi/quoter
-
 Usage
 =====
 
@@ -65,14 +61,15 @@ Yields::
     <br>
     <!-- content ends here -->
 
-This clearly goes beyond "simply wrapping some text with other text." The
+This goes well beyond "simply wrapping some text with other text." The
 output format varies widely, correctly interpreting CSS Selector-based
-controls, using void/self-closing elements where needed, and specialized
-markup. The HTML quoter and its companion XML quoter are competitive in
-power and simplicity with bespoke markup-generating packages.
-(A similar generator for Markdown
-is also newly included, though it's a the "demonsration" rather than
-"use" stage.)
+controls, using void/self-closing elements where needed, and using
+specialized markup such as the comment format when needed. The HTML quoter
+and its companion XML quoter are competitive in power and simplicity with
+bespoke markup-generating packages.
+
+(A similar generator for Markdown is also newly included, though it's a the
+"demonsration" rather than "use in production code" stage.)
 
 Finally, ``quoter`` provides a drop-dead simple, highly functional,
 ``join`` function::
@@ -97,10 +94,9 @@ Yields::
     "A", "B", "C" and "D"
 
 Which shows a range of separators, separation styles (both Oxford and
-non-Oxford commas), endcaps, padding, and individual item quoting. I
-daresay you will not find a more flexible or configurable ``join``
-function *anywhere* else, in
-any programming language, at any price.
+non-Oxford commas), endcaps, padding, and individual item quoting. I daresay
+you will not find a more flexible or configurable ``join`` function
+*anywhere* else, in any programming language, at any price.
 
 And if you like any particular style of formatting, make it your own::
 

@@ -7,6 +7,7 @@ import re
 from options import Options
 from .util import *
 from .quoter import Quoter
+from .styleset import *
 import six
 
 
@@ -15,8 +16,6 @@ class Joiner(Quoter):
     """
     A type of Quoter that deals with sequences.
     """
-
-    styles = {}         # remember named styles
 
     options = Quoter.options.add(
         sep=', ',    # separator between items
@@ -35,7 +34,7 @@ class Joiner(Quoter):
         Quoter.__init__(self)
 
         opts = self.options = self.__class__.options.push(kwargs)
-        self._register_name(opts.name)
+
 
     def __call__(self, seq, **kwargs):
         """
@@ -76,26 +75,27 @@ class Joiner(Quoter):
         return self._output(payload, opts)
 
 
-# FIXME: issue with named styles that have multiple styles extant
-
-join = Joiner()
+join = StyleSet(
+        factory = Joiner,
+        instant = False,
+        immediate = Joiner(),
+        promote = 'but clone')
 
 # specializations
 
 # A and B. A, B, and C.
-and_join = join.but(sep=', ', twosep=' and ', lastsep=', and ', name='and_join and')
-word_join = and_join # deprecated
+and_join = join.and_join = join.but(sep=', ', twosep=' and ', lastsep=', and ')
 
 # A or B. A, B, or C.
-or_join = join.but(sep=', ', twosep=' or ', lastsep=', or ', name='or_join or')
+or_join = join.or_join = join.but(sep=', ', twosep=' or ', lastsep=', or ')
 
-joinlines = join.but(sep="\n", suffix="\n", name='joinlines lines')
+joinlines = join.joinlines = join.lines = join.but(sep="\n", suffix="\n")
 
 # TODO: Rationalize with respect to more sophisticated quoter args
 # TODO: Rationalizw wrt more sophisticated quoter class structure and extensibility
 # TODO: Add padding and margin, like quoter
 
-concat = join.but(sep='', twosep='', lastsep='', name='concat')
+concat = join.concat = join.but(sep='', twosep='', lastsep='')
 
 
 def is_sequence(arg):

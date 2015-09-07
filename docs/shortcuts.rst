@@ -15,10 +15,15 @@ You can, of course, define your own aliases as well, and/or redefine existing
 styles. If, for example, you like ``braces`` but wish it added a padding space
 by default, it's simple to redefine::
 
-    braces = Quoter('{', '}', padding=1, name='braces')
-    print braces('braces plus spaces!')  # '{ braces plus spaces! }'
+    sbraces = Quoter('{', '}', padding=1)
+    print sbraces('braces plus spaces!')  # '{ braces plus spaces! }'
+
+You could alternatively riff off of the existing ``braces``::
+
+    sbraces = braces.but(padding=1)
 
 You could still get the no-padding variation with::
 
     print braces('no space braces', padding=0) # '{no space braces}'
+
 

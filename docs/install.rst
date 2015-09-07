@@ -27,7 +27,7 @@ and ``coverage``. Then run one of these commands::
     tox -c toxcov.ini  # run full coverage tests
 
 The provided ``tox.ini`` and ``toxcov.ini`` config files do not define
-a preferred package index / repository. If you want to use them with 
+a preferred package index / repository. If you want to use them with
 a specific (presumably local) index, the ``-i`` option will come in
 very handy::
 

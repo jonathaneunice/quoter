@@ -6,7 +6,7 @@ intelligence. It offers
 one additional attribute beyond ``HTMLQuoter``:
 ``ns`` for namespaces. Thus::
 
-    item = XMLQuoter(tag='item', ns='inv', name='item inv_item')
+    item = xml._define("item inv_item", tag='item', ns='inv')
     print item('an item')
     print xml.item('another')
     print xml.inv_item('yet another')
@@ -31,4 +31,3 @@ In general, ``xml.tagname`` auto-generates quoters just like
 ``html.tagname`` does on first use. There are also pre-defined utility
 methods such as ``html.comment()`` and ``xml.comment()`` for commenting
 purposes.
-

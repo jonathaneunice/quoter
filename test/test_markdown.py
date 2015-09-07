@@ -31,6 +31,16 @@ def test_md_h():
     assert md.h('title', 4, setext=True) == "title\n-----\n"
 
 
+def test_hN():
+    assert md.h1('this') == "# this"
+    assert md.h2('this') == "## this"
+    assert md.h3('this') == "### this"
+    assert md.h4('this') == "#### this"
+    assert md.h5('this') == "##### this"
+    assert md.h6('this') == "###### this"
+    assert md.h7('this') == "####### this"
+
+
 def test_md_p():
     assert md.p('this') == 'this'
     assert md.p('this ', md.i('and'), ' that') == 'this *and* that'
@@ -50,4 +60,4 @@ def test_md_hr():
     assert md.doc([md.p("one"), md.hr(), md.p("two")]) == \
                 "one\n\n----\n\ntwo\n"
 
-# FIXME: hr fails to basic style defn problem 
+# FIXME: hr fails to basic style defn problem

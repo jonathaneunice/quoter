@@ -16,3 +16,13 @@ options changed in the clone::
     bart = bars.clone(prefix=']', suffix='[')
     assert bart('x') == '] x ['
 
+The method ``but`` is a synonym for ``clone``. It is used to suggest
+"I like everything there, but...change this and that."::
+
+    bartwide = bart.but(margin=2)
+    assert bartwide('x') == '  ] x [  '
+
+Note that if any of the options for  ``bart`` besides ``margin`` change,
+those changes will be reflected in ``bartwide`` as well. ``bartwide`` has
+decided what its own margins will be, but delegated all other choices to
+its parent object.

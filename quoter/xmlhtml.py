@@ -8,6 +8,8 @@ import six
 from options import Options, OptionsClass, Prohibited, Transient
 from .util import *
 from .quoter import *
+from .styleset import *
+
 
 class XMLQuoter(Quoter):
 
@@ -15,8 +17,6 @@ class XMLQuoter(Quoter):
     A more sophisticated quoter for XML elements that manages tags,
     namespaces, and the idea that some elements may not have contents.
     """
-
-    styles = {}         # remember named styles
 
     options = Quoter.options.add(
         tag      = None,
@@ -32,8 +32,6 @@ class XMLQuoter(Quoter):
         """
         Create an XMLQuoter
         """
-        # Restating basic init to avoid errors of self.__getattribute__
-        # that can flummox superclass instantiation
         Quoter.__init__(self)
 
         # take the atts kwargs for special interpretation
@@ -41,7 +39,6 @@ class XMLQuoter(Quoter):
 
         # update remaining kwargs
         opts = self.options = self.__class__.options.push(kwargs)
-        self._register_name(opts.name)
 
         # process flat args
         tagspec, attspec = pad(args, 2)
@@ -53,10 +50,6 @@ class XMLQuoter(Quoter):
         update_style_dict(atts, kwargs)
         update_style_dict(atts, style_attribs(attspec))
         update_style_dict(atts, style_attribs(tagspec))
-
-        #print "args:", repr(args)
-        #print "tagspec, attspec:", repr(tagspec), repr(attspec)
-        #print "atts:", atts
 
         # finally set the object's key values
         opts.tag = atts.pop('_tag', None) or opts.tag
@@ -74,52 +67,48 @@ class XMLQuoter(Quoter):
         """
         Quote a value in X/HTML style, with optional attributes.
         """
-        stylename = kwargs.pop('style', None)
-        if stylename:
-            cls = self.__class__
-            return cls.styles[stylename](*args, **kwargs)
+
+        # if not args and not opts.void:
+        #    return self.clone(**kwargs)
+
+        # take the atts kwargs for special interpretation
+        kw_atts_atts = style_attribs(kwargs.pop('atts', None))
+
+        # update remaining kwargs
+        opts = self.options.push(kwargs)
+
+        # process flat args
+        if opts.void:
+            spec = args[0] if args else ''
+            value = None
         else:
-            # if not args and not opts.void:
-            #    return self.clone(**kwargs)
+            value, spec = pad(args, 2)
 
-            # take the atts kwargs for special interpretation
-            kw_atts_atts = style_attribs(kwargs.pop('atts', None))
+        # combine style attributes from opts, kwargs, and flat args
+        # (in reverse order of priority)
+        atts = {}
+        update_style_dict(atts, style_attribs(opts.atts))
+        update_style_dict(atts, kwargs)
+        update_style_dict(atts, kw_atts_atts)
+        update_style_dict(atts, style_attribs(spec))
 
-            # update remaining kwargs
-            opts = self.options.push(kwargs)
-
-            # process flat args
-            if opts.void:
-                spec = args[0] if args else ''
-                value = None
-            else:
-                value, spec = pad(args, 2)
-
-            # combine style attributes from opts, kwargs, and flat args
-            # (in reverse order of priority)
-            atts = {}
-            update_style_dict(atts, style_attribs(opts.atts))
-            update_style_dict(atts, kwargs)
-            update_style_dict(atts, kw_atts_atts)
-            update_style_dict(atts, style_attribs(spec))
-
-            # if there is a local tag, let it come in force
-            opts.tag = atts.pop('_tag', None) or opts.tag
+        # if there is a local tag, let it come in force
+        opts.tag = atts.pop('_tag', None) or opts.tag
 
 
-            # construct the resulting attribute string
-            astr = self._attstr(atts, opts) if atts else ''
+        # construct the resulting attribute string
+        astr = self._attstr(atts, opts) if atts else ''
 
 
-            pstr, mstr = self._whitespace(opts)
-            ns = opts.ns + ':' if opts.ns else ''
-            if opts.void or not args:
-                parts = [ mstr, '<', ns, opts.tag, astr, '>', mstr ]
-            else:
-                parts = [ mstr, '<', ns, opts.tag, astr, '>', pstr,
-                          stringify(value),
-                          pstr, '</', ns, opts.tag, '>', mstr ]
-            return self._output(parts, opts)
+        pstr, mstr = self._whitespace(opts)
+        ns = opts.ns + ':' if opts.ns else ''
+        if opts.void or not args:
+            parts = [ mstr, '<', ns, opts.tag, astr, '>', mstr ]
+        else:
+            parts = [ mstr, '<', ns, opts.tag, astr, '>', pstr,
+                      stringify(value),
+                      pstr, '</', ns, opts.tag, '>', mstr ]
+        return self._output(parts, opts)
 
 
     # could improve kwargs handling of HTMLQuoter
@@ -145,10 +134,8 @@ class HTMLQuoter(XMLQuoter):
     A more sophisticated quoter that supports attributes and void elements for HTML.
     """
 
-    styles = {}         # remember named styles
-
     options = XMLQuoter.options.add(
-        ns       = Prohibited,
+        ns       = Prohibited,  # HTML doesn't have namespaces
     )
 
     def __init__(self, *args, **kwargs):
@@ -158,9 +145,12 @@ class HTMLQuoter(XMLQuoter):
 # HTML/XML comments need normal, not tag-based, quoters
 _markup_comment = Quoter(prefix='<!--', suffix='-->', padding=1)
 
-html = HTMLQuoter('html')
-setattr(HTMLQuoter, 'comment', _markup_comment)
-HTMLQuoter.styles['comment'] = _markup_comment
+html = StyleSet(
+        factory = HTMLQuoter,
+        instant = True,
+        immediate = HTMLQuoter('html'))
+
+html.comment = _markup_comment
 
 # Tags that don't take content. Their payload is specified in their
 # tag name and attributes, if any.
@@ -170,28 +160,17 @@ _SELFCLOSING = """
 """.strip().split()
 
 for t in _SELFCLOSING:
-    hq = HTMLQuoter(t, void=True)
-    setattr(HTMLQuoter, t, hq)
-    XMLQuoter.styles[t] = hq
+    html[t] = HTMLQuoter(t, void=True)
 
 
-xml = XMLQuoter('xml')
-setattr(XMLQuoter, 'comment', _markup_comment)
-XMLQuoter.styles['comment'] = _markup_comment
+xml = StyleSet(
+        factory = XMLQuoter,
+        instant = True,
+        immediate = XMLQuoter('xml'))
 
+xml.comment = _markup_comment
+xml.cdata = Quoter("<![CDATA[", "]]>")
+xml.pcdata = Quoter("<![PCDATA[", "]]>")
 
-# Eventually working way toward a CSS box model style formatting in which there
-# can be a marginleft, marginright, paddingleft, and paddingright (i.e.
-# separating left and right magin/padding specs). It might even be possible
-# to provide borders (top and bottom), and to reconsider prefix and suffix
-# as left and right borders. Alignment of content within a cell and various
-# forms of multi-line justification might also be feasible.
-
-# With named styles being stored in the Quoter/subclass __dict__, it is
-# unclear there is any benefit to having a separate styles class attribute.
-# Removing it may take some extra testing changes, but would be a simplifying
-# cleanup.
-
-# Consider abstracting the "StyleSet" functionality of a group of named
-# styles from the Quoter functionality. Possibly a sidecar to the the
-# ``options`` module.
+# TODO: Should xml.pcdata do any auto-quoting of text handed to it?
+# TODO: should there be xml.CDATA and xml.PCDATA synonyms

@@ -15,7 +15,7 @@ such as HTML and XML.
    Cloning and Setting <setting>
    Formatting and Encoding <encoding>
    Shortcuts <shortcuts>
-   Clean Imports <imports>
+   Style Sets <stylesets>
    HTML <html>
    XML <xml>
    Named Styles <named>

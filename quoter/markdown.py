@@ -3,13 +3,13 @@ import re
 import six
 from options import Options, OptionsClass, Prohibited, Transient
 from .util import *
-from .quoter import Quoter, QUOTER_ATTRS
+from .quoter import Quoter
 from .joiner import joinlines
 from .styleset import StyleSet
 
 
-MD_ATTRS = set(['a', 'p', 'doc', 'h'])
-MD_ATTRS.update(QUOTER_ATTRS)
+# MD_ATTRS = set(['a', 'p', 'doc', 'h'])
+# MD_ATTRS.update(QUOTER_ATTRS)
 
 
 class MDQuoter(Quoter):

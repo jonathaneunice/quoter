@@ -1,11 +1,12 @@
- *  move listing to util and its test to test_util
+
  *  restore uniform character interpretation with _flatargs reworkd
     - add to clone implementation
     - readd chars as pair
  *  add fork interprestation once nomenclature dust settles
+ *  extend quoter calls to take multiple objects
 
  *  flesh out Markdown formatter with code, list, listitem, etc
- *  use MD to clean up method naming, getattribute, and styles structure
+
  *  use MD to add indent kind of functions (block oriented layout)
 
     The problem with this is that we're returning strings all the time,

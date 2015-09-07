@@ -5,25 +5,6 @@ from quoter import *
 import pytest
 
 
-def test_listing():
-
-    assert listing(None) == []
-
-    assert listing(()) == []
-    assert listing(('a',)) == ['a']
-    assert listing(('a','b')) == ['a', 'b']
-    assert listing(('a', 'b', 'c')) == ['a', 'b', 'c']
-
-    assert listing([]) == []
-    assert listing(['a']) == ['a']
-    assert listing(['a','b']) == ['a', 'b']
-    assert listing(['a', 'b', 'c']) == ['a', 'b', 'c']
-
-    assert listing('') == []
-    assert listing('a') == ['a']
-    assert listing('a b') == ['a', 'b']
-    assert listing('a b c') == ['a', 'b', 'c']
-
 def test_basic():
 
     s = StyleSet(Quoter)

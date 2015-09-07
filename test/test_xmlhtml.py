@@ -101,8 +101,6 @@ def test_html_auto_and_attributes():
     assert html.img(src='one') == "<img src='one'>"
 
 
-# some problem exists with explicit atts setting here
-@pytest.mark.skipif('True')
 def test_xml_autogenerate():
     more = xml.b.clone(atts='.this')
     assert more('x') == "<b class='this'>x</b>"

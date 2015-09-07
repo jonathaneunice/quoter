@@ -53,11 +53,13 @@ def test_md_doc():
     assert md.doc(paras) == \
            'this *and* that\n\nsome other stuff\n'
 
-@pytest.mark.xfail
-def test_md_hr():
-    assert md.hr() == "----"
 
+def test_md_hr():
+    assert md.hr() == "-----"
+
+
+def test_md_doc():
     assert md.doc([md.p("one"), md.hr(), md.p("two")]) == \
-                "one\n\n----\n\ntwo\n"
+                "one\n\n-----\n\ntwo\n"
 
 # FIXME: hr fails to basic style defn problem

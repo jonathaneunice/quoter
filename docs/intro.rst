@@ -189,3 +189,21 @@ In most cases, it's cleaner and more efficient to define a style, but
 there's nothing preventing you from an on-the-fly usage::
 
     print Quoter('+[ ', ' ]+')('castle')   # +[ castle ]+
+
+Construction Details
+--------------------
+
+The examples above generally use a flag argument style of construction.
+Note, however, that ``Quoter`` is converting these into respective
+``prefix`` and
+``suffix`` values. If you prefer, you can simply state the prefix and
+or suffix as direct kwargs::
+
+    vars = Quoter(prefix='${', suffix='}')
+    print vars('y')                         # ${y}
+
+And for the very common cases where quotes are paired, equal-length
+strings, those can be specified with the ``pair`` kwarg::
+
+    onetwo = Quoter(pair="1221")
+    print onetwo('this')                    # 12this21

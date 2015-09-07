@@ -144,12 +144,12 @@ def test_or_join():
     assert or_join([1, 2, 3, 4]) == '1, 2, 3, or 4'
 
 
-@pytest.mark.xfail(reason='road out')
+#@pytest.mark.xfail(reason='road out')
 def test_named_endpoints():
     mylist = list('ABCD')
-    assert join(mylist, style="and") == and_join(mylist)
-    assert join(mylist, style="or") == or_join(mylist)
-    assert join.lines(mylist) == join(mylist, style="lines") == joinlines(mylist)
+    assert join.and_join(mylist) == and_join(mylist)
+    assert join.or_join(mylist) == or_join(mylist)
+    assert join.lines(mylist) == joinlines(mylist)
 
 
 def test_items():

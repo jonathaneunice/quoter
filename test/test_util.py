@@ -2,6 +2,8 @@
 
 from quoter.util import *
 import six
+import pytest
+
 
 def test_is_string():
     assert is_string("")
@@ -19,6 +21,34 @@ def test_stringify():
     assert stringify('this') == 'this'
     assert stringify(4) == '4'
     assert stringify(six.u("\u2014")) == six.u("\u2014")
+
+
+def test_halfstr():
+    assert halfstr("") == ["", ""]
+    assert halfstr("[]") == ["[", "]"]
+    assert halfstr("[[]]") == ["[[", "]]"]
+
+    with pytest.raises(ValueError):
+        halfstr("abc")
+
+def test_listing():
+
+    assert listing(None) == []
+
+    assert listing(()) == []
+    assert listing(('a',)) == ['a']
+    assert listing(('a','b')) == ['a', 'b']
+    assert listing(('a', 'b', 'c')) == ['a', 'b', 'c']
+
+    assert listing([]) == []
+    assert listing(['a']) == ['a']
+    assert listing(['a','b']) == ['a', 'b']
+    assert listing(['a', 'b', 'c']) == ['a', 'b', 'c']
+
+    assert listing('') == []
+    assert listing('a') == ['a']
+    assert listing('a b') == ['a', 'b']
+    assert listing('a b c') == ['a', 'b', 'c']
 
 
 def test_blanknone():

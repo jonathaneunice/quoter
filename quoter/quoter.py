@@ -15,9 +15,6 @@ class BadStyleName(ValueError):
     pass
 
 
-QUOTER_ATTRS = set(['options', 'styles', 'set', 'settings', 'clone', 'but'])
-# set of attribute names to support __getattribute__ implementation
-
 class Quoter(OptionsClass, QuoterBase):
 
     """
@@ -28,6 +25,7 @@ class Quoter(OptionsClass, QuoterBase):
     options = Options(
         prefix       = None,
         suffix       = None,
+        pair         = Transient,
         margin       = 0,
         padding      = 0,
         encoding     = None,
@@ -38,14 +36,18 @@ class Quoter(OptionsClass, QuoterBase):
         Create a quoting style.
         """
         opts = self.options = self.__class__.options.push(kwargs)
-        self._flatargs(args)
+        self._interpret_args(args)
 
-    def _flatargs(self, args):
+    def _interpret_args(self, args):
         """
         Consume 'flat' *args if present when object is constructed.
+        Interpret them, and possibly also options already set.
         """
+        opts = self.options
+        if opts.pair is not Transient:
+            opts.prefix, opts.suffix = halfstr(opts.pair)
+            opts.pair = Transient
         if args:
-            opts = self.options
             used = opts.addflat(args, ['prefix', 'suffix'])
             if 'suffix' not in used:
                 opts.suffix = opts.prefix
@@ -72,11 +74,11 @@ class Quoter(OptionsClass, QuoterBase):
 
     def __call__(self, value, **kwargs):
         """
-        Quote the value, with the given padding, margin, and encoding.
+        Quote the value, according to the current options.
         """
         opts = self.options.push(kwargs)
         pstr, mstr = self._whitespace(opts)
-        suffix = opts.suffix if opts.suffix is not None else opts.prefix
+        suffix = opts.suffix or ''
         parts = [ mstr, opts.prefix, pstr, stringify(value), pstr, suffix, mstr ]
         return self._output(parts, opts)
 
@@ -102,10 +104,10 @@ quote = StyleSet(factory=Quoter,
                  immediate=Quoter("'"))
 
 
-braces   = quote._define("braces",   '{', '}')
-brackets = quote._define("brackets", '[', ']')
-angles   = quote._define("angles",   '<', '>')
-parens   = quote._define("parens",   '(', ')')
+braces   = quote._define("braces",   pair='{}')
+brackets = quote._define("brackets", pair='[]')
+angles   = quote._define("angles",   pair='<>')
+parens   = quote._define("parens",   pair='()')
 qs = single = quote._define("qs single", "'")
 qd = double = quote._define("qd double", '"')
 qt = triple = quote._define("qt triple", '"""')
@@ -114,10 +116,10 @@ qdb = doublebackticks = quote._define("qdb doublebackticks", "``")
 
 # and some Unicode styles
 anglequote = guillemet = quote._define("anglequote guillemet",
-                                       six.u('\u00ab'), six.u('\u00bb'))
-chevron = quote._define("chevron", six.u('\u2039'), six.u('\u203a'))
-curlysingle = quote._define("curlysingle", six.u('\u2018'), six.u('\u2019'))
-curlydouble = quote._define("curlydouble", six.u('\u201c'), six.u('\u201d'))
+                                           pair=six.u('\u00ab\u00bb'))
+chevron = quote._define("chevron",         pair=six.u('\u2039\u203a'))
+curlysingle = quote._define("curlysingle", pair=six.u('\u2018\u2019'))
+curlydouble = quote._define("curlydouble", pair=six.u('\u201c\u201d'))
 
 
 class LambdaQuoter(Quoter):
@@ -130,11 +132,13 @@ class LambdaQuoter(Quoter):
         func   = None,
         prefix = Prohibited,
         suffix = Prohibited,
+        pair   = Prohibited,
     )
 
-    def _flatargs(self, args):
+    def _interpret_args(self, args):
         """
         Consume 'flat' *args if present when object is constructed.
+        Interpret them, and possibly also options already set.
         """
         if args:
             self.options.addflat(args, ['func'])

@@ -22,6 +22,7 @@ such as HTML and XML.
    Dynamic Quoters <dynamic>
    Markdown <markdown>
    Joiners <joiners>
+   API Reference <api>
    Notes <notes>
    install
    CHANGES

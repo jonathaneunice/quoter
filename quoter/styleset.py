@@ -4,20 +4,7 @@ from options import attrs
 import sys
 from inspect import getmembers, ismethod
 from .base import QuoterBase
-
-_PY3 = sys.version_info[0] > 2
-if _PY3:
-    basestring = str
-
-
-def listing(l):
-    """
-    Return a list from either None, an iterable, or a whitespace-separated
-    string listing.
-    """
-    if not l:
-        return []
-    return l.strip().split() if isinstance(l, basestring) else list(l)
+from .util import listing
 
 
 class StyleSet(object):

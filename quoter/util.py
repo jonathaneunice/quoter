@@ -23,6 +23,27 @@ def stringify(v):
     return v if isinstance(v, basestring) else unicode(v)
 
 
+def halfstr(s):
+    """
+    Split the given string, returning each half in a list.
+    """
+    length = len(s)
+    half = length // 2
+    if half * 2 != length:
+        raise ValueError('string {0!r} not of even length'.format(s))
+    return [s[:half], s[half:]]
+
+
+def listing(l):
+    """
+    Return a list from either None, an iterable, or a whitespace-separated
+    string listing.
+    """
+    if not l:
+        return []
+    return l.strip().split() if isinstance(l, basestring) else list(l)
+
+
 def blanknone(v):
     """
     Return a value, or empty string if it's None.

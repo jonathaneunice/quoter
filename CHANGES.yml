@@ -1,3 +1,22 @@
+
+-
+    version: 1.6.3
+    date: September 7, 2015
+    notes: >
+        Handful of minor cleanups.
+        
+        All previously skipped tests are now re-enabled and passing.
+        
+        Argument handling of ``Quoter`` creation is now hardened. If a
+        prefix or suffix is explicitly set but not the other, the unset one
+        defaults to an empty string, not to the other one that is set.
+        
+        The ``pair`` keyword for compact setting of balanced quote
+        prefix/suffix pairs is returned to service (in earlier
+        incarndations, this was the ``chars`` kwarg).
+        
+        Extended documentation. Added API Reference.
+        
 -
     version: 1.6.0
     date: September 7, 2015

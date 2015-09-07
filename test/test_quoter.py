@@ -15,8 +15,8 @@ def test_brackets():
     assert brackets('this', margin=1) == ' [this] '
     assert brackets('this', padding=1, margin=1) == ' [ this ] '
 
-def test_other_named_ascii_styles():
 
+def test_other_named_ascii_styles():
     assert angles('this') == '<this>'
     assert parens('this') == '(this)'
     assert qs('this') == single('this') == "'this'"
@@ -24,6 +24,7 @@ def test_other_named_ascii_styles():
     assert qt('this') == triple('this') == '"""this"""'
     assert qb('this') == backticks('this') == '`this`'
     assert qdb('this') == doublebackticks('this') == '``this``'
+
 
 def test_named_unicode_styles():
     assert anglequote('this') == guillemet('this') == six.u('\u00abthis\u00bb')
@@ -39,7 +40,6 @@ def test_clone():
     the expected results, and that after cloning, the originals
     behave exactly as before
     """
-
     bar2 = quote.bar2 = brackets.clone(margin=2)
     assert bar2 is not brackets
     assert bar2('this') == '  [this]  '
@@ -113,18 +113,17 @@ def test_set_example():
     assert bartwide('x') == '  ] x [  '
 
 
-@pytest.mark.skipif(True, reason='road closed')
-def test_chars():
-    percent = Quoter(chars='%%')
+def test_pairs():
+    percent = Quoter(pair='%%')
     assert percent('something') == '%something%'
-    doublea = Quoter(chars='<<>>')
+    doublea = Quoter(pair='<<>>')
     assert doublea('AAA') == '<<AAA>>'
 
-# From a quoter point of view, the chars kwarg is totally gilding the
-# lily, and unnecessary. But from the point of view of exploring and
-# exercising the underlying options package, it is quite interesting,
-# in that it requires a mapping of one user-level argument into two
-# different underlying parameters. It's a good edge-case for testing.
+    # From a quoter point of view, the chars kwarg is arguably gilding the
+    # lily. But for exercising and exploring flexible parameter handling and
+    # the underlying options package, it is quite interesting. It requires a
+    # mapping of one user-level argument into two different underlying
+    # parameters. It's a good edge-case for testing.
 
 
 def test_auto_stringification():
@@ -179,6 +178,12 @@ def test_examples():
 
     variable = Quoter('${', '}')
     assert variable('x') == '${x}'
+
+    vars = Quoter(prefix='${', suffix='}')
+    assert vars('y') == '${y}'
+
+    onetwo = Quoter(pair="1221")
+    assert onetwo('this') == '12this21'
 
 
 def test_attribute_invocations():

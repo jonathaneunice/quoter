@@ -101,7 +101,6 @@ class MDQuoter(Quoter):
 # TODO: code
 # TODO: list (ordered)
 # TODO: list (unordered)
-# TODO: hr
 # TODO: image
 # TODO: automatic link
 # TODO: footnote

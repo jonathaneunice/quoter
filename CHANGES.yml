@@ -1,5 +1,16 @@
 
 -
+    version: 1.6.4
+    date: September 7, 2015
+    notes: >
+        Quoters can now take a variable number of arguments. A ``sep``
+        kwarg determins how multiple pieces are combined. Defaults to
+        empty string, so rank concatenation. Full rationalization re
+        ``Joiner`` awaits another day.
+        
+        Minor testing cleanups.
+        
+-
     version: 1.6.3
     date: September 7, 2015
     notes: >

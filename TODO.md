@@ -1,9 +1,9 @@
 
- *  restore uniform character interpretation with _flatargs reworkd
-    - add to clone implementation
-    - readd chars as pair
+ *  document multiple arg Quoter and broader pair interpreation
+
+ *  improve pair interpretation to work with magic arguments not bespoke logic
+
  *  add fork interprestation once nomenclature dust settles
- *  extend quoter calls to take multiple objects
 
  *  flesh out Markdown formatter with code, list, listitem, etc
 

@@ -26,6 +26,7 @@ class Quoter(OptionsClass, QuoterBase):
         prefix       = None,
         suffix       = None,
         pair         = Transient,
+        sep          = '',
         margin       = 0,
         padding      = 0,
         encoding     = None,
@@ -38,15 +39,18 @@ class Quoter(OptionsClass, QuoterBase):
         opts = self.options = self.__class__.options.push(kwargs)
         self._interpret_args(args)
 
+    def _interpret_pair(self, opts):
+        if opts.pair is not Transient:
+            opts.prefix, opts.suffix = halfstr(opts.pair)
+            opts.pair = Transient
+
     def _interpret_args(self, args):
         """
         Consume 'flat' *args if present when object is constructed.
         Interpret them, and possibly also options already set.
         """
         opts = self.options
-        if opts.pair is not Transient:
-            opts.prefix, opts.suffix = halfstr(opts.pair)
-            opts.pair = Transient
+        self._interpret_pair(opts)
         if args:
             used = opts.addflat(args, ['prefix', 'suffix'])
             if 'suffix' not in used:
@@ -72,14 +76,17 @@ class Quoter(OptionsClass, QuoterBase):
         outstr = ''.join(parts)
         return outstr.encode(opts.encoding) if opts.encoding else outstr
 
-    def __call__(self, value, **kwargs):
+    def __call__(self, *args, **kwargs):
         """
         Quote the value, according to the current options.
         """
         opts = self.options.push(kwargs)
+        self._interpret_pair(opts)
         pstr, mstr = self._whitespace(opts)
+        sval = opts.sep.join(stringify(a) for a in args)
+        prefix = opts.prefix or ''
         suffix = opts.suffix or ''
-        parts = [ mstr, opts.prefix, pstr, stringify(value), pstr, suffix, mstr ]
+        parts = [ mstr, prefix, pstr, sval, pstr, suffix, mstr ]
         return self._output(parts, opts)
 
     def clone(self, **kwargs):
@@ -90,6 +97,7 @@ class Quoter(OptionsClass, QuoterBase):
         """
         cloned = self.__class__()
         cloned.options = self.options.push(kwargs)
+        cloned._interpret_pair(cloned.options)
         return cloned
 
         # NB clone takes only kwargs, not flat args, contra constructor
@@ -152,6 +160,8 @@ class LambdaQuoter(Quoter):
         prefix, value, suffix = opts.func(value)
         parts = [mstr, prefix, pstr, stringify(value), pstr, suffix, mstr]
         return self._output(parts, opts)
+
+        # TODO: Determine if LambdaQuoters can take multiple arguments
 
 lambdaq = StyleSet(
             factory=LambdaQuoter,

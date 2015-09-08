@@ -45,19 +45,6 @@ def test_margins_and_padding():
     assert bl(mylist, margin=2, padding=1) =="  { A|B|C|D }  "
 
 
-def test_is_sequence():
-    assert not is_sequence('this')
-    assert not is_sequence(six.u('this'))
-    assert not is_sequence(4)
-    assert not is_sequence(4.4)
-    assert not is_sequence(3.3+2j)
-    assert is_sequence([])
-    assert is_sequence([1,3,4])
-    assert is_sequence(set())
-    assert is_sequence(set([1,3,4]))
-    assert is_sequence(range(10))
-
-
 def test_oxford():
     assert and_join([]) == ''
     assert and_join([1]) == '1'

@@ -1,6 +1,45 @@
 Change Log
 ==========
 
+**1.6.3**  (September 7, 2015)
+
+    Handful of minor cleanups.
+
+    All previously skipped tests are now re-enabled and passing.
+
+    Argument handling of ``Quoter`` creation is now hardened. If a
+    prefix or suffix is explicitly set but not the other, the unset
+    one defaults to an empty string, not to the other one that is set.
+
+    The ``pair`` keyword for compact setting of balanced quote
+    prefix/suffix pairs is returned to service (in earlier
+    incarndations, this was the ``chars`` kwarg).
+
+    Extended documentation. Added API Reference.
+
+
+**1.6.0**  (September 7, 2015)
+
+    Major redesign of the named styles facility. Refactored style
+    management out of ``Quoter`` and its subclasses and into separate
+    ``StyleSet`` class.  Much cleaner and more reliable.
+
+    The ``style=`` kwarg to ``Quoter`` classes, however, goes away. It
+    was "a bridge too far," complicating everything and not adding
+    real value. Its function is now found in ``StyleSet._define()``.
+
+    While this is largely an "infrastructure" rather than functional
+    release, there were some minor functional improvements: Markdown
+    quoting extended with ``hr`` and ``h1`` through ``h7`` header
+    methods. XML quoting now has ``cdata`` and ``pcdata`` methods.
+    Both of these are part of an incremental march toward functional
+    completeness in their respective quoting realms.
+
+    Withdrew branch coverage testing metric. While a good idea in
+    theory, current tools do not provide sufficient actionable
+    intelligence to directly identify source of branch misses.
+
+
 **1.5.6**  (August 22, 2015)
 
     Extended Markdown feature with header function ``h``

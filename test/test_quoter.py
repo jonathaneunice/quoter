@@ -125,12 +125,26 @@ def test_pairs():
     # mapping of one user-level argument into two different underlying
     # parameters. It's a good edge-case for testing.
 
+    # TODO: Move pairs= processing into standard magical argument handling scheme
+
+
+def test_broad_interpretation_of_pairs():
+    percent = Quoter(pair='%%')
+    assert percent('this', pair='@@') == '@this@'
+    dollars = percent.but(pair='$$')
+    assert dollars('this') == '$this$'
+
 
 def test_auto_stringification():
     assert brackets(12) == '[12]'
     assert braces(4.4) == '{4.4}'
     assert double(None) == '"None"'
     assert single(False) == "'False'"
+
+
+def test_multiple_values():
+    assert braces('a', 'b', 'c') == '{abc}'
+    assert single('a', 'b', 'c', sep='|') == "'a|b|c'"
 
 
 def test_shortcuts():
@@ -160,7 +174,6 @@ def test_lambda():
     assert lambdaq.warning(12) == '12'
     assert lambdaq.warning(-99) == '**-99**'
     assert lambdaq.warning(-99, padding=1) == '** -99 **'
-
 
 
 def test_examples():

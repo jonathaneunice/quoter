@@ -18,21 +18,18 @@ class Joiner(Quoter):
     """
 
     options = Quoter.options.add(
-        sep=', ',    # separator between items
+        sep=', ',      # separator between items
         twosep=None,   # separator between items if only two
         lastsep=None,  # separator between penultimate and final item
         quoter=None,   # quoter for individual items
         endcaps=None,  # quoter for entire joined sequence
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         """
         Create a Joiner
         """
-        # Restating basic init to avoid errors of self.__getattribute__
-        # that can flummox superclass instantiation
         Quoter.__init__(self)
-
         opts = self.options = self.__class__.options.push(kwargs)
 
 
@@ -74,6 +71,8 @@ class Joiner(Quoter):
                          blanknone(opts.suffix), mstr]
         return self._output(payload, opts)
 
+    # TODO: Determine if it makes any sense for Joiners to take *args
+
 
 join = StyleSet(
         factory = Joiner,
@@ -91,21 +90,10 @@ or_join = join.or_join = join.but(sep=', ', twosep=' or ', lastsep=', or ')
 
 joinlines = join.joinlines = join.lines = join.but(sep="\n", suffix="\n")
 
-# TODO: Rationalize with respect to more sophisticated quoter args
-# TODO: Rationalizw wrt more sophisticated quoter class structure and extensibility
-# TODO: Add padding and margin, like quoter
-
 concat = join.concat = join.but(sep='', twosep='', lastsep='')
 
-
-def is_sequence(arg):
-    """
-    Is a list, set etc. Not a string.
-    """
-    if hasattr(arg, "__iter__") or hasattr(arg, "__getitem__"):
-        if not hasattr(arg, "strip"):
-            return True
-    return False
+# TODO: Rationalize with respect to more sophisticated quoter args
+# TODO: Add padding and margin, like quoter
 
 
 items_options = Options(

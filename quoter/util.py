@@ -44,6 +44,16 @@ def listing(l):
     return l.strip().split() if isinstance(l, basestring) else list(l)
 
 
+def is_sequence(arg):
+    """
+    Is a list, set etc. Not a string.
+    """
+    if hasattr(arg, "__iter__") or hasattr(arg, "__getitem__"):
+        if not hasattr(arg, "strip"):
+            return True
+    return False
+
+
 def blanknone(v):
     """
     Return a value, or empty string if it's None.

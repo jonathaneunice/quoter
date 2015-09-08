@@ -1,6 +1,22 @@
 Change Log
 ==========
 
+**1.6.5**  (September 8, 2015)
+
+    Minor fix to Markdown module. Turns out HTML stops at ``h6``, not
+    ``h7``.  Oops!
+
+
+**1.6.4**  (September 7, 2015)
+
+    Quoters can now take a variable number of arguments. A ``sep``
+    kwarg determins how multiple pieces are combined. Defaults to
+    empty string, so rank concatenation. Full rationalization re
+    ``Joiner`` awaits another day.
+
+    Minor testing cleanups.
+
+
 **1.6.3**  (September 7, 2015)
 
     Handful of minor cleanups.

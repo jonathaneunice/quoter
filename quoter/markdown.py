@@ -86,9 +86,6 @@ class MDQuoter(Quoter):
         kwargs['level'] = 6
         return self.h(text, **kwargs)
 
-    def h7(self, text, **kwargs):
-        kwargs['level'] = 7
-        return self.h(text, **kwargs)
 
     def hr(self, **kwargs):
         opts = self.options.push(kwargs)

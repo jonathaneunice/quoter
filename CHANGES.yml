@@ -1,5 +1,12 @@
 
 -
+    version: 1.6.5
+    date: September 8, 2015
+    notes: >
+        Minor fix to Markdown module. Turns out HTML stops at ``h6``,
+        not ``h7``.  Oops!
+        
+-
     version: 1.6.4
     date: September 7, 2015
     notes: >

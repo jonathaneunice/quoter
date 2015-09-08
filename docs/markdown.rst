@@ -21,7 +21,7 @@ Function    Markdown Block
 ``md.h1``   heading level 1
 ``md.h2``   heading level 2
 ...         ...
-``md.h7``   heading level 7
+``md.h6``   heading level 6
 ``md.p``    paragraph
 ``md.hr``   horizontal rule
 ``md.doc``  document
@@ -35,4 +35,3 @@ prove/harden its extension mechanisms, which it is already doing. A much
 more extensive block-oriented quoting mechanism is in the works to flesh out
 Markdown construction. Stay tuned for more extensive functions and
 documentation.
-

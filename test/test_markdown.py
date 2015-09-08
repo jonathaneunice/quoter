@@ -15,6 +15,8 @@ def test_md_h():
     assert md.h('title', 2) == "## title"
     assert md.h('title', 3) == "### title"
     assert md.h('title', 4) == "#### title"
+    assert md.h('title', 5) == "##### title"
+    assert md.h('title', 6) == "###### title"
 
     # test close
     assert md.h('title',    close=True) == "# title #"
@@ -22,6 +24,8 @@ def test_md_h():
     assert md.h('title', 2, close=True) == "## title ##"
     assert md.h('title', 3, close=True) == "### title ###"
     assert md.h('title', 4, close=True) == "#### title ####"
+    assert md.h('title', 5, close=True) == "##### title #####"
+    assert md.h('title', 6, close=True) == "###### title ######"
 
     # test setext
     assert md.h('title',    setext=True) == "title\n=====\n"
@@ -38,7 +42,6 @@ def test_hN():
     assert md.h4('this') == "#### this"
     assert md.h5('this') == "##### this"
     assert md.h6('this') == "###### this"
-    assert md.h7('this') == "####### this"
 
 
 def test_md_p():

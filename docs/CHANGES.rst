@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+**1.6.6**  (September 16, 2015)
+
+    Updated testing for Python 3.5.0 final and PyPy 2.6.1  (based on
+    CPython 2.7.10).
+
+
 **1.6.5**  (September 8, 2015)
 
     Minor fix to Markdown module. Turns out HTML stops at ``h6``, not

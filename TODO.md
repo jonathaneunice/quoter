@@ -1,4 +1,7 @@
 
+
+ *  set up styleset so one can make a namespaced XMLQuoter like inv
+
  *  document multiple arg Quoter and broader pair interpreation
 
  *  improve pair interpretation to work with magic arguments not bespoke logic
@@ -50,6 +53,12 @@
     widths. If they set 60 say, there is a lot of extra room for
     indentation. While imperfect, it could go a long way to being
     a Pareto-sufficient solution.
+
+    This is now prototyped, but there is a considerable issue with <pre>
+    which is going to get indented even if it's wrong to do so, because
+    of the mulitple levels after the pre that will indent not knowing about
+    the pre. Maybe a fix_pre routine would do - strip out all the common
+    prefix of pre sections.
 
  *  determine if problem with multinamed styles in quoter (seems like it)
  *  further modulularize documentation

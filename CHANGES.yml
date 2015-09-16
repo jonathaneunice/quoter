@@ -1,3 +1,9 @@
+-
+    version: 1.6.6
+    date: September 16, 2015
+    notes: >
+        Updated testing for Python 3.5.0 final and PyPy 2.6.1 
+        (based on CPython 2.7.10).
 
 -
     version: 1.6.5

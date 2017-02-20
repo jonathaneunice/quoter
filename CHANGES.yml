@@ -1,4 +1,11 @@
 -
+    version: 1.6.7
+    date: February 20, 2018
+    notes: >
+        Updated testing matrix. Now certified under Python 3.6
+        and latest versions of PyPy and PyPy3.
+
+-
     version: 1.6.6
     date: September 16, 2015
     notes: >

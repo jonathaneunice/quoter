@@ -4,7 +4,6 @@ from setuptools import setup
 from codecs import open
 
 
-
 def lines(text):
     """
     Returns each non-blank line in text enclosed in a list.
@@ -15,7 +14,7 @@ def lines(text):
 
 setup(
     name='quoter',
-    version='1.6.6',
+    version='1.6.7',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Powerful way to construct text, HTML, and XML, plus a kick-ass join",

@@ -27,7 +27,7 @@ A start on a more complete, method-by-method reference:
    :special-members: __init__,__call__
    :inherited-members:
 
-.. autoclass:: quoter.Markdown
+.. autoclass:: quoter.MDQuoter
    :members:
    :undoc-members:
    :special-members: __init__,__call__

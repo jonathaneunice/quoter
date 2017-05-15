@@ -14,7 +14,7 @@ def lines(text):
 
 setup(
     name='quoter',
-    version='1.6.7',
+    version='1.6.8',
     author='Jonathan Eunice',
     author_email='jonathan.eunice@gmail.com',
     description="Powerful way to construct text, HTML, and XML, plus a kick-ass join",
@@ -23,8 +23,8 @@ setup(
     license='Apache License 2.0',
     packages=['quoter'],
     setup_requires=[],
-    install_requires=['six>=1.9', 'options>=1.4'],
-    tests_require=['tox', 'pytest', 'pytest-cov', 'coverage', 'six>=1.9'],
+    install_requires=['six>=1.10', 'options>=1.4.6'],
+    tests_require=['tox', 'pytest', 'pytest-cov', 'coverage'],
     test_suite="test",
     zip_safe=False,  # it really is, but this will prevent weirdness
     keywords='quote wrap prefix suffix endcap repr representation html xml join',
@@ -41,6 +41,7 @@ setup(
         Programming Language :: Python :: 3.3
         Programming Language :: Python :: 3.4
         Programming Language :: Python :: 3.5
+        Programming Language :: Python :: 3.6
         Programming Language :: Python :: Implementation :: CPython
         Programming Language :: Python :: Implementation :: PyPy
         Topic :: Software Development :: Libraries :: Python Modules

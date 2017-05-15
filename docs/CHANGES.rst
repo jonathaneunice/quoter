@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-**1.6.7**  (February 20, 2018)
+**1.6.7**  (February 20, 2017)
 
     Updated testing matrix. Now certified under Python 3.6 and latest
     versions of PyPy and PyPy3.
